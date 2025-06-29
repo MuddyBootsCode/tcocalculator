@@ -308,15 +308,15 @@
                 <div class="variable-group">
                     <h4>☁️ AWS Usage Controls</h4>
                     <div class="slider-control">
-                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span>M</label>
+                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span></label>
                         <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span>M</label>
+                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span></label>
                         <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M'); updateFromSlider('apiGatewayRequests', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span>GB</label>
+                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span></label>
                         <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB'); updateFromSlider('cloudFrontData', this.value);">
                     </div>
                 </div>
