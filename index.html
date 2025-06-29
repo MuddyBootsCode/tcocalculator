@@ -198,144 +198,182 @@
         .negative {
             color: #d32f2f;
         }
+        .slider-control {
+            margin-bottom: 15px;
+        }
+        .slider-control label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .slider-control input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .slider-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .slider-control input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .slider-control input[type="range"]:hover::-webkit-slider-thumb {
+            background: #1976D2;
+            transform: scale(1.1);
+        }
+        .slider-control input[type="range"]:hover::-moz-range-thumb {
+            background: #1976D2;
+            transform: scale(1.1);
+        }
+        .slider-control span {
+            font-weight: bold;
+            color: #1976D2;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Software Development TCO Calculator</h1>
         
+        <div class="summary-box">
+            <h2 style="margin: 0; border: none; color: white;">💰 3-Year Total Cost of Ownership</h2>
+            <div class="summary-amount" id="totalTCO">$0</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h3>📊 Cost Per User</h3>
+                    <div class="value" id="costPerUser">$0</div>
+                </div>
+                <div class="summary-item">
+                    <h3>📅 Monthly Cost Per User</h3>
+                    <div class="value" id="monthlyCostPerUser">$0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Controls Section -->
         <div class="variables-section">
-            <h2>📊 Scenario Variables</h2>
+            <h2>🎛️ Interactive Visualization Controls</h2>
             <div class="variables-grid">
                 <div class="variable-group">
-                    <h4>👥 Team Composition & Daily Rates</h4>
-                    <div class="input-row">
-                        <label>Number of Experts:</label>
-                        <input type="number" id="numExperts" value="1" onchange="calculateTCO()">
+                    <h4>📈 Growth & Scale Controls</h4>
+                    <div class="slider-control">
+                        <label>User Growth Rate: <span id="userGrowthValue">10</span></label>
+                        <input type="range" id="userGrowthSlider" min="10" max="200" value="10" oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue', '%'); updateFromSlider('userGrowth', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Expert Daily Rate ($):</label>
-                        <input type="number" id="expertRate" value="2250" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Expected Users: <span id="expectedUsersValue">20,000</span></label>
+                        <input type="range" id="expectedUsersSlider" min="100" max="100000" value="20000" oninput="updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true); updateFromSlider('expectedUsers', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Number of Engineers:</label>
-                        <input type="number" id="numEngineers" value="1" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Engineer Daily Rate ($):</label>
-                        <input type="number" id="engineerRate" value="2000" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Number of Frontend Engineers:</label>
-                        <input type="number" id="numFrontendEngineers" value="2" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Frontend Engineer Daily Rate ($):</label>
-                        <input type="number" id="frontendRate" value="1500" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Organization Growth: <span id="organizationGrowthValue">100</span></label>
+                        <input type="range" id="organizationGrowthSlider" min="10" max="300" value="100" oninput="updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue', '%'); updateFromSlider('organizationGrowth', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
-                    <h4>⌚ Individual Weekly Hours (MVP Phase)</h4>
-                    <div class="input-row">
-                        <label>Expert Hours/Week (per person):</label>
-                        <input type="number" id="expertHours" value="20" onchange="calculateTCO()">
+                    <h4>👥 Team Composition Controls</h4>
+                    <div class="slider-control">
+                        <label>Number of Experts: <span id="numExpertsValue">1</span></label>
+                        <input type="range" id="numExpertsSlider" min="0" max="5" value="1" oninput="updateSliderValue('numExpertsSlider', 'numExpertsValue'); updateFromSlider('numExperts', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Engineer Hours/Week (per person):</label>
-                        <input type="number" id="engineerHours" value="20" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Number of Engineers: <span id="numEngineersValue">1</span></label>
+                        <input type="range" id="numEngineersSlider" min="0" max="10" value="1" oninput="updateSliderValue('numEngineersSlider', 'numEngineersValue'); updateFromSlider('numEngineers', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Frontend Engineer Hours/Week (per person):</label>
-                        <input type="number" id="frontendHours" value="20" onchange="calculateTCO()">
-                    </div>
-                </div>
-                
-                <div class="variable-group">
-                    <h4>⏱️ Time Parameters</h4>
-                    <div class="input-row">
-                        <label>MVP Duration (months):</label>
-                        <input type="number" id="mvpDuration" value="6" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Working Days/Month:</label>
-                        <input type="number" id="workingDays" value="21" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Number of Frontend Engineers: <span id="numFrontendEngineersValue">2</span></label>
+                        <input type="range" id="numFrontendEngineersSlider" min="0" max="10" value="2" oninput="updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue'); updateFromSlider('numFrontendEngineers', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
-                    <h4>🔧 Individual Ongoing Maintenance (Post-MVP)</h4>
-                    <div class="input-row">
-                        <label>Expert Hours/Month (per person):</label>
-                        <input type="number" id="expertMaintenanceHours" value="15" onchange="calculateTCO()">
+                    <h4>☁️ AWS Usage Controls</h4>
+                    <div class="slider-control">
+                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span>M</label>
+                        <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Engineer Hours/Month (per person):</label>
-                        <input type="number" id="engineerMaintenanceHours" value="20" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span>M</label>
+                        <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M'); updateFromSlider('apiGatewayRequests', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Frontend Engineer Hours/Month (per person):</label>
-                        <input type="number" id="frontendMaintenanceHours" value="17" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Maintenance Rate vs Dev Rate (%):</label>
-                        <input type="number" id="maintenanceRateMultiplier" value="85" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span>GB</label>
+                        <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB'); updateFromSlider('cloudFrontData', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
-                    <h4>💻 Infrastructure Costs</h4>
-                    <div class="input-row">
-                        <label>Monthly Hosting ($):</label>
-                        <input type="number" id="hosting" value="150" onchange="calculateTCO()">
+                    <h4>💰 Cost Controls</h4>
+                    <div class="slider-control">
+                        <label>Expert Daily Rate: $<span id="expertRateValue">2,250</span></label>
+                        <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '$', true); updateFromSlider('expertRate', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Dev Tools/Year ($):</label>
-                        <input type="number" id="devTools" value="3000" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Engineer Daily Rate: $<span id="engineerRateValue">2,000</span></label>
+                        <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '$', true); updateFromSlider('engineerRate', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Third-party Services/Month ($):</label>
-                        <input type="number" id="thirdParty" value="200" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Software Licenses/Month ($):</label>
-                        <input type="number" id="licensing" value="300" onchange="calculateTCO()">
-                    </div>
-                </div>
-                
-                <div class="variable-group">
-                    <h4>📈 Growth Assumptions</h4>
-                    <div class="input-row">
-                        <label>Hosting Growth Rate/Year (%):</label>
-                        <input type="number" id="hostingGrowth" value="50" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Support Hours Growth/Year (%):</label>
-                        <input type="number" id="supportGrowth" value="25" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Licensing Growth Rate/Year (%):</label>
-                        <input type="number" id="licensingGrowth" value="20" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Frontend Daily Rate: $<span id="frontendRateValue">1,500</span></label>
+                        <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '$', true); updateFromSlider('frontendRate', this.value);">
                     </div>
                 </div>
 
                 <div class="variable-group">
-                    <h4>👤 User & Organization Projections</h4>
-                    <div class="input-row">
-                        <label>Expected Number of Users:</label>
-                        <input type="number" id="expectedUsers" value="1000" onchange="calculateTCO()">
+                    <h4>⌚ MVP Development Hours</h4>
+                    <div class="slider-control">
+                        <label>Expert Hours/Week: <span id="expertHoursValue">20</span></label>
+                        <input type="range" id="expertHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('expertHoursSlider', 'expertHoursValue'); updateFromSlider('expertHours', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Number of Organizations:</label>
-                        <input type="number" id="numOrganizations" value="8" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Engineer Hours/Week: <span id="engineerHoursValue">20</span></label>
+                        <input type="range" id="engineerHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('engineerHoursSlider', 'engineerHoursValue'); updateFromSlider('engineerHours', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>User Growth Rate/Year (%):</label>
-                        <input type="number" id="userGrowth" value="50" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Frontend Hours/Week: <span id="frontendHoursValue">20</span></label>
+                        <input type="range" id="frontendHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('frontendHoursSlider', 'frontendHoursValue'); updateFromSlider('frontendHours', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Organization Growth Rate/Year (%):</label>
-                        <input type="number" id="organizationGrowth" value="100" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>MVP Duration: <span id="mvpDurationValue">6</span> months</label>
+                        <input type="range" id="mvpDurationSlider" min="3" max="12" value="6" oninput="updateSliderValue('mvpDurationSlider', 'mvpDurationValue', ' months'); updateFromSlider('mvpDuration', this.value);">
+                    </div>
+                </div>
+
+                <div class="variable-group">
+                    <h4>🔧 Ongoing Maintenance</h4>
+                    <div class="slider-control">
+                        <label>Expert Hours/Month: <span id="expertMaintenanceHoursValue">15</span></label>
+                        <input type="range" id="expertMaintenanceHoursSlider" min="5" max="40" value="15" oninput="updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue'); updateFromSlider('expertMaintenanceHours', this.value);">
+                    </div>
+                    <div class="slider-control">
+                        <label>Engineer Hours/Month: <span id="engineerMaintenanceHoursValue">20</span></label>
+                        <input type="range" id="engineerMaintenanceHoursSlider" min="5" max="40" value="20" oninput="updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue'); updateFromSlider('engineerMaintenanceHours', this.value);">
+                    </div>
+                    <div class="slider-control">
+                        <label>Frontend Hours/Month: <span id="frontendMaintenanceHoursValue">17</span></label>
+                        <input type="range" id="frontendMaintenanceHoursSlider" min="5" max="40" value="17" oninput="updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue'); updateFromSlider('frontendMaintenanceHours', this.value);">
+                    </div>
+                    <div class="slider-control">
+                        <label>Maintenance Rate: <span id="maintenanceRateMultiplierValue">85</span></label>
+                        <input type="range" id="maintenanceRateMultiplierSlider" min="50" max="100" value="85" oninput="updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue', '%'); updateFromSlider('maintenanceRateMultiplier', this.value);">
                     </div>
                 </div>
 
@@ -348,145 +386,18 @@
                             <option value="paid">Paid Neo4j (Discovery Bundle)</option>
                         </select>
                     </div>
-                    <div class="input-row">
-                        <label>Organizations per Neo4j Instance:</label>
-                        <input type="number" id="orgsPerInstance" value="4" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Number of Organizations: <span id="numOrganizationsValue">2</span></label>
+                        <input type="range" id="numOrganizationsSlider" min="1" max="50" value="2" oninput="updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue'); updateFromSlider('numOrganizations', this.value); autoSwitchNeo4jPaid(this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Neo4j Discovery Bundle Cost ($):</label>
-                        <input type="number" id="neo4jInstanceCost" value="36000" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Organizations per Instance: <span id="orgsPerInstanceValue">4</span></label>
+                        <input type="range" id="orgsPerInstanceSlider" min="1" max="10" value="4" oninput="updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue'); updateFromSlider('orgsPerInstance', this.value);">
                     </div>
-                </div>
-
-                <div class="variable-group">
-                    <h4>☁️ Core AWS Services</h4>
-                    <div class="input-row">
-                        <label>DynamoDB Monthly Cost ($):</label>
-                        <input type="number" id="dynamodbCost" value="200" onchange="calculateTCO()">
+                    <div class="slider-control">
+                        <label>Neo4j Bundle Cost: $<span id="neo4jInstanceCostValue">36,000</span></label>
+                        <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="36000" oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '$', true); updateFromSlider('neo4jInstanceCost', this.value);">
                     </div>
-                    <div class="input-row">
-                        <label>Cognito Cost per MAU/Month ($):</label>
-                        <input type="number" step="0.01" id="cognitoCostPerUser" value="0.05" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Lambda Requests/Month (millions):</label>
-                        <input type="number" step="0.1" id="lambdaRequestsPerMonth" value="10" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Lambda Cost per Million Requests ($):</label>
-                        <input type="number" step="0.01" id="lambdaCostPerMillion" value="0.20" onchange="calculateTCO()">
-                    </div>
-                </div>
-
-                <div class="variable-group">
-                    <h4>🌐 Additional AWS Services</h4>
-                    <div class="input-row">
-                        <label>API Gateway Requests/Month (millions):</label>
-                        <input type="number" step="0.1" id="apiGatewayRequests" value="10" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>API Gateway Cost per Million ($):</label>
-                        <input type="number" step="0.01" id="apiGatewayCostPerMillion" value="3.50" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>CloudFront Data Transfer/Month (GB):</label>
-                        <input type="number" step="0.1" id="cloudFrontData" value="500" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>CloudFront Cost per GB ($):</label>
-                        <input type="number" step="0.001" id="cloudFrontCostPerGB" value="0.085" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>S3 Storage (GB):</label>
-                        <input type="number" step="0.1" id="s3Storage" value="100" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>S3 Cost per GB/Month ($):</label>
-                        <input type="number" step="0.001" id="s3CostPerGB" value="0.023" onchange="calculateTCO()">
-                    </div>
-                </div>
-
-                <div class="variable-group">
-                    <h4>📊 AWS Monitoring & Messaging</h4>
-                    <div class="input-row">
-                        <label>CloudWatch Logs Ingested/Month (GB):</label>
-                        <input type="number" step="0.1" id="cloudWatchLogs" value="10" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>CloudWatch Cost per GB ($):</label>
-                        <input type="number" step="0.01" id="cloudWatchCostPerGB" value="0.50" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>EventBridge Events/Month (millions):</label>
-                        <input type="number" step="0.1" id="eventBridgeEvents" value="1" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>EventBridge Cost per Million ($):</label>
-                        <input type="number" step="0.01" id="eventBridgeCostPerMillion" value="1.00" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>SQS Messages/Month (millions):</label>
-                        <input type="number" step="0.1" id="sqsMessages" value="5" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>SQS Cost per Million Messages ($):</label>
-                        <input type="number" step="0.01" id="sqsCostPerMillion" value="0.40" onchange="calculateTCO()">
-                    </div>
-                </div>
-
-                <div class="variable-group">
-                    <h4>📊 AWS Growth Assumptions</h4>
-                    <div class="input-row">
-                        <label>API/Lambda Usage Growth/Year (%):</label>
-                        <input type="number" id="lambdaGrowth" value="40" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Storage Growth Rate/Year (%):</label>
-                        <input type="number" id="storageGrowth" value="30" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Data Transfer Growth/Year (%):</label>
-                        <input type="number" id="dataTransferGrowth" value="35" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Logs/Monitoring Growth/Year (%):</label>
-                        <input type="number" id="logsGrowth" value="25" onchange="calculateTCO()">
-                    </div>
-                </div>
-
-                <div class="variable-group">
-                    <h4>📊 User Behavior & AWS Usage</h4>
-                    <div class="input-row">
-                        <label>API Requests per User/Month:</label>
-                        <input type="number" id="apiRequestsPerUser" value="1000" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Data Transfer per User/Month (MB):</label>
-                        <input type="number" step="0.1" id="dataPerUser" value="500" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Storage per User (MB):</label>
-                        <input type="number" step="0.1" id="storagePerUser" value="100" onchange="calculateTCO()">
-                    </div>
-                    <div class="input-row">
-                        <label>Active User Rate (%):</label>
-                        <input type="number" id="activeUserRate" value="70" onchange="calculateTCO()">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="summary-box">
-            <h2 style="margin: 0; border: none; color: white;">💰 3-Year Total Cost of Ownership</h2>
-            <div class="summary-amount" id="totalTCO">$0</div>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <h3>📊 Cost Per User</h3>
-                    <div class="value" id="costPerUser">$0</div>
-                </div>
-                <div class="summary-item">
-                    <h3>📅 Monthly Cost Per User</h3>
-                    <div class="value" id="monthlyCostPerUser">$0</div>
                 </div>
             </div>
         </div>
@@ -555,9 +466,121 @@
         </table>
     </div>
 
+    <!-- Hidden input fields for calculations -->
+    <div style="display: none;">
+        <input type="number" id="numExperts" value="1">
+        <input type="number" id="numEngineers" value="1">
+        <input type="number" id="numFrontendEngineers" value="2">
+        <input type="number" id="expertRate" value="2250">
+        <input type="number" id="engineerRate" value="2000">
+        <input type="number" id="frontendRate" value="1500">
+        <input type="number" id="expertHours" value="20">
+        <input type="number" id="engineerHours" value="20">
+        <input type="number" id="frontendHours" value="20">
+        <input type="number" id="mvpDuration" value="6">
+        <input type="number" id="workingDays" value="21">
+        <input type="number" id="expectedUsers" value="20000">
+        <input type="number" id="numOrganizations" value="2">
+        <input type="number" id="userGrowth" value="10">
+        <input type="number" id="organizationGrowth" value="100">
+        <input type="number" id="expertMaintenanceHours" value="15">
+        <input type="number" id="engineerMaintenanceHours" value="20">
+        <input type="number" id="frontendMaintenanceHours" value="17">
+        <input type="number" id="maintenanceRateMultiplier" value="85">
+        <input type="number" id="licensing" value="300">
+        <input type="number" id="licensingGrowth" value="20">
+        <input type="number" id="dynamodbCost" value="200">
+        <input type="number" step="0.01" id="cognitoCostPerUser" value="0.05">
+        <input type="number" step="0.1" id="lambdaRequestsPerMonth" value="10">
+        <input type="number" step="0.01" id="lambdaCostPerMillion" value="0.20">
+        <input type="number" step="0.1" id="apiGatewayRequests" value="10">
+        <input type="number" step="0.01" id="apiGatewayCostPerMillion" value="3.50">
+        <input type="number" step="0.1" id="cloudFrontData" value="500">
+        <input type="number" step="0.001" id="cloudFrontCostPerGB" value="0.085">
+        <input type="number" step="0.1" id="s3Storage" value="100">
+        <input type="number" step="0.001" id="s3CostPerGB" value="0.023">
+        <input type="number" step="0.1" id="cloudWatchLogs" value="10">
+        <input type="number" step="0.01" id="cloudWatchCostPerGB" value="0.50">
+        <input type="number" step="0.1" id="eventBridgeEvents" value="1">
+        <input type="number" step="0.01" id="eventBridgeCostPerMillion" value="1.00">
+        <input type="number" step="0.1" id="sqsMessages" value="5">
+        <input type="number" step="0.01" id="sqsCostPerMillion" value="0.40">
+        <input type="number" id="lambdaGrowth" value="40">
+        <input type="number" id="storageGrowth" value="30">
+        <input type="number" id="dataTransferGrowth" value="35">
+        <input type="number" id="logsGrowth" value="25">
+        <input type="number" id="apiRequestsPerUser" value="1000">
+        <input type="number" step="0.1" id="dataPerUser" value="500">
+        <input type="number" step="0.1" id="storagePerUser" value="100">
+        <input type="number" id="activeUserRate" value="70">
+        <select id="graphDbOption">
+            <option value="free">Free Neo4j (Docker/Community)</option>
+            <option value="paid">Paid Neo4j (Discovery Bundle)</option>
+        </select>
+        <input type="number" id="orgsPerInstance" value="4">
+        <input type="number" id="neo4jInstanceCost" value="36000">
+        <input type="number" id="hosting" value="150">
+        <input type="number" id="devTools" value="3000">
+        <input type="number" id="thirdParty" value="200">
+        <input type="number" id="hostingGrowth" value="50">
+        <input type="number" id="supportGrowth" value="25">
+    </div>
+
     <script>
         // Chart instances
         let costPerUserChart, costCompositionChart, costDriversChart, scaleChart;
+
+        // Slider utility functions
+        function updateSliderValue(sliderId, valueId, suffix = '', formatNumber = false) {
+            const slider = document.getElementById(sliderId);
+            const valueElement = document.getElementById(valueId);
+            let value = slider.value;
+            
+            if (formatNumber) {
+                value = parseInt(value).toLocaleString();
+            }
+            
+            valueElement.textContent = value + suffix;
+        }
+
+        function updateFromSlider(inputId, value) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.value = value;
+                calculateTCO();
+            }
+        }
+
+        // Initialize slider values on page load
+        function initializeSliders() {
+            // Update all slider display values
+            updateSliderValue('userGrowthSlider', 'userGrowthValue', '%');
+            updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true);
+            updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue', '%');
+            updateSliderValue('numExpertsSlider', 'numExpertsValue');
+            updateSliderValue('numEngineersSlider', 'numEngineersValue');
+            updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue');
+            updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M');
+            updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M');
+            updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB');
+            updateSliderValue('expertRateSlider', 'expertRateValue', '$', true);
+            updateSliderValue('engineerRateSlider', 'engineerRateValue', '$', true);
+            updateSliderValue('frontendRateSlider', 'frontendRateValue', '$', true);
+            updateSliderValue('expertHoursSlider', 'expertHoursValue');
+            updateSliderValue('engineerHoursSlider', 'engineerHoursValue');
+            updateSliderValue('frontendHoursSlider', 'frontendHoursValue');
+            updateSliderValue('mvpDurationSlider', 'mvpDurationValue', ' months');
+            updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue');
+            updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue');
+            updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue');
+            updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue', '%');
+            updateSliderValue('hostingSlider', 'hostingValue', '$', true);
+            updateSliderValue('devToolsSlider', 'devToolsValue', '$', true);
+            updateSliderValue('supportGrowthSlider', 'supportGrowthValue', '%');
+            updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue');
+            updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue');
+            updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '$', true);
+        }
 
         function formatCurrency(amount) {
             return new Intl.NumberFormat('en-US', {
@@ -593,7 +616,7 @@
             costPerUserChart = new Chart(ctx1, {
                 type: 'line',
                 data: {
-                    labels: ['1K Users', '5K Users', '10K Users', '25K Users', '50K Users'],
+                    labels: data.userScaleLabels,
                     datasets: [{
                         label: 'Year 1',
                         data: data.costPerUserByScale.year1,
@@ -766,12 +789,22 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
+                        title: {
+                            display: true,
+                            text: 'Shows how total costs scale with user growth',
+                            font: {
+                                size: 12
+                            },
+                            color: '#666'
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
+                                    const costPerUser = context.parsed.y / context.parsed.x;
                                     return context.dataset.label + ': ' + 
                                            context.parsed.x.toLocaleString() + ' users, ' +
-                                           formatCurrency(context.parsed.y) + '/month';
+                                           formatCurrency(context.parsed.y) + '/month' +
+                                           ' (' + formatCurrencyPrecise(costPerUser) + '/user)';
                                 }
                             }
                         }
@@ -781,6 +814,14 @@
                             title: {
                                 display: true,
                                 text: 'Number of Users'
+                            },
+                            type: 'logarithmic',
+                            ticks: {
+                                callback: function(value) {
+                                    if (value >= 1000000) return (value/1000000) + 'M';
+                                    if (value >= 1000) return (value/1000) + 'K';
+                                    return value;
+                                }
                             }
                         },
                         y: {
@@ -1006,11 +1047,135 @@
                 return (fixedCosts + variableCosts) / userCount / 12;
             };
 
+            // Calculate total cost at scale properly
+            const calculateTotalCostAtScale = (userCount, year) => {
+                // Get base values for the year
+                const yearDev = year === 1 ? year1Development : year === 2 ? year2Development : year3Development;
+                const yearHost = year === 1 ? year1Hosting : year === 2 ? year2Hosting : year3Hosting;
+                const yearThird = year === 1 ? year1ThirdParty : year === 2 ? year2ThirdParty : year3ThirdParty;
+                const yearLic = year === 1 ? year1Licensing : year === 2 ? year2Licensing : year3Licensing;
+                const yearGraph = year === 1 ? year1GraphDB : year === 2 ? year2GraphDB : year3GraphDB;
+                const baseUsers = year === 1 ? year1Users : year === 2 ? year2Users : year3Users;
+                
+                // Fixed costs (don't scale with users)
+                const fixedCosts = yearDev + yearHost + yearThird + yearLic + annualDevTools + yearGraph;
+                
+                // Variable AWS costs (scale with users)
+                const scaleFactor = userCount / baseUsers;
+                const dynamodbBase = dynamodbCost * 12 * (year === 1 ? 1 : year === 2 ? (1 + storageGrowth) : Math.pow(1 + storageGrowth, 2));
+                const cognitoCost = cognitoCostPerUser * userCount * 12;
+                const lambdaBase = lambdaCostPerMillion * lambdaRequestsPerMonth * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
+                const apiGatewayBase = apiGatewayCostPerMillion * apiGatewayRequests * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
+                const cloudFrontBase = cloudFrontCostPerGB * cloudFrontData * 12 * (year === 1 ? 1 : year === 2 ? (1 + dataTransferGrowth) : Math.pow(1 + dataTransferGrowth, 2));
+                const s3Base = s3CostPerGB * s3Storage * 12 * (year === 1 ? 1 : year === 2 ? (1 + storageGrowth) : Math.pow(1 + storageGrowth, 2));
+                const cloudWatchBase = cloudWatchCostPerGB * cloudWatchLogs * 12 * (year === 1 ? 1 : year === 2 ? (1 + logsGrowth) : Math.pow(1 + logsGrowth, 2));
+                const eventBridgeBase = eventBridgeCostPerMillion * eventBridgeEvents * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
+                const sqsBase = sqsCostPerMillion * sqsMessages * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
+                
+                // Some AWS costs scale partially or fully with users
+                const variableAWSCosts = cognitoCost + 
+                    (dynamodbBase * Math.sqrt(scaleFactor)) + // DynamoDB scales sub-linearly
+                    (lambdaBase * scaleFactor) +
+                    (apiGatewayBase * scaleFactor) +
+                    (cloudFrontBase * scaleFactor) +
+                    (s3Base * Math.sqrt(scaleFactor)) + // Storage scales sub-linearly
+                    (cloudWatchBase * scaleFactor) +
+                    (eventBridgeBase * scaleFactor) +
+                    (sqsBase * scaleFactor);
+                
+                return fixedCosts + variableAWSCosts;
+            };
+
+            // Generate dynamic user scale points based on actual projections
+            const generateUserScalePoints = () => {
+                const points = [];
+                const maxYear3Users = year3Users;
+                
+                // Always include actual year values
+                points.push(Math.round(year1Users));
+                points.push(Math.round(year2Users));
+                points.push(Math.round(year3Users));
+                
+                // Add intermediate points for better visualization
+                if (year1Users > 100) points.push(100);
+                if (year1Users > 500) points.push(500);
+                if (year1Users > 1000) points.push(1000);
+                if (maxYear3Users > 5000) points.push(5000);
+                if (maxYear3Users > 10000) points.push(10000);
+                if (maxYear3Users > 25000) points.push(25000);
+                if (maxYear3Users > 50000) points.push(50000);
+                if (maxYear3Users > 100000) points.push(100000);
+                
+                // Add projections for years 4 and 5 if useful
+                const year4Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 3));
+                const year5Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 4));
+                if (year4Users <= 1000000) points.push(year4Users);
+                if (year5Users <= 1000000) points.push(year5Users);
+                
+                // Remove duplicates and sort
+                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
+            };
+            
+            const userScalePoints = generateUserScalePoints();
+            
+            // Generate year-specific scale points that reflect actual projections
+            const generateYearSpecificScalePoints = (year) => {
+                const baseUsers = year === 1 ? year1Users : year === 2 ? year2Users : year3Users;
+                const points = [];
+                
+                // Include the actual projected users for this year
+                points.push(Math.round(baseUsers));
+                
+                // Add scale points around the projected users
+                const scaleFactors = [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 5];
+                scaleFactors.forEach(factor => {
+                    const scaledUsers = Math.round(baseUsers * factor);
+                    if (scaledUsers > 0 && scaledUsers <= 1000000) {
+                        points.push(scaledUsers);
+                    }
+                });
+                
+                // Remove duplicates and sort
+                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
+            };
+            
+            // Generate continuous timeline scale points
+            const generateContinuousTimelinePoints = () => {
+                const points = [];
+                
+                // Start from a small number
+                points.push(100);
+                points.push(500);
+                points.push(1000);
+                
+                // Add the actual year projections
+                points.push(Math.round(year1Users));
+                points.push(Math.round(year2Users));
+                points.push(Math.round(year3Users));
+                
+                // Add intermediate points between years
+                const year1ToYear2 = Math.round((year1Users + year2Users) / 2);
+                const year2ToYear3 = Math.round((year2Users + year3Users) / 2);
+                points.push(year1ToYear2);
+                points.push(year2ToYear3);
+                
+                // Add future projections if reasonable
+                const year4Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 3));
+                const year5Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 4));
+                if (year4Users <= 1000000) points.push(year4Users);
+                if (year5Users <= 1000000) points.push(year5Users);
+                
+                // Remove duplicates and sort
+                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
+            };
+            
+            const timelinePoints = generateContinuousTimelinePoints();
+            
             const chartData = {
                 costPerUserByScale: {
-                    year1: [1000, 5000, 10000, 25000, 50000].map(u => calculateCostPerUserAtScale(u, 1)),
-                    year2: [1000, 5000, 10000, 25000, 50000].map(u => calculateCostPerUserAtScale(u, 2)),
-                    year3: [1000, 5000, 10000, 25000, 50000].map(u => calculateCostPerUserAtScale(u, 3))
+                    year1: userScalePoints.map(u => calculateCostPerUserAtScale(u, 1)),
+                    year2: userScalePoints.map(u => calculateCostPerUserAtScale(u, 2)),
+                    year3: userScalePoints.map(u => calculateCostPerUserAtScale(u, 3))
                 },
                 costComposition: {
                     development: [
@@ -1046,19 +1211,24 @@
                     ].sort((a, b) => b - a)
                 },
                 scaleData: {
-                    year1: [1000, 5000, 10000, 25000, 50000].map(u => ({
+                    year1: timelinePoints.filter(u => u <= year1Users).map(u => ({
                         x: u,
-                        y: (year1Total / year1Users) * u / 12
+                        y: calculateTotalCostAtScale(u, 1) / 12
                     })),
-                    year2: [1000, 5000, 10000, 25000, 50000].map(u => ({
+                    year2: timelinePoints.filter(u => u > year1Users && u <= year2Users).map(u => ({
                         x: u,
-                        y: (year2Total / year2Users) * u / 12
+                        y: calculateTotalCostAtScale(u, 2) / 12
                     })),
-                    year3: [1000, 5000, 10000, 25000, 50000].map(u => ({
+                    year3: timelinePoints.filter(u => u > year2Users).map(u => ({
                         x: u,
-                        y: (year3Total / year3Users) * u / 12
+                        y: calculateTotalCostAtScale(u, 3) / 12
                     }))
-                }
+                },
+                userScaleLabels: userScalePoints.map(u => {
+                    if (u >= 1000000) return (u/1000000).toFixed(1) + 'M';
+                    if (u >= 1000) return (u/1000).toFixed(0) + 'K';
+                    return u.toString();
+                })
             };
 
             // Sort cost drivers and their labels together
@@ -1076,13 +1246,46 @@
             document.getElementById('monthlyCostPerUser').textContent = formatCurrencyPrecise(monthlyCostPerUser);
 
             // Update user analysis table
-            const userSegments = [
-                { name: 'First 1,000 users', count: 1000 },
-                { name: '1,001-5,000 users', count: 5000 },
-                { name: '5,001-10,000 users', count: 10000 },
-                { name: '10,001-25,000 users', count: 25000 },
-                { name: '25,001+ users', count: 50000 }
-            ];
+            const generateUserSegments = () => {
+                const segments = [];
+                const maxUsers = Math.max(year1Users, year2Users, year3Users) * 2;
+                
+                // Always include actual year values
+                const keyPoints = [
+                    Math.round(year1Users * 0.1),
+                    Math.round(year1Users * 0.5),
+                    Math.round(year1Users),
+                    Math.round(year2Users),
+                    Math.round(year3Users)
+                ].filter(p => p > 0).sort((a, b) => a - b);
+                
+                // Create meaningful segments
+                for (let i = 0; i < keyPoints.length; i++) {
+                    const count = keyPoints[i];
+                    let name;
+                    
+                    if (i === 0) {
+                        name = `First ${count.toLocaleString()} users`;
+                    } else {
+                        const prevCount = keyPoints[i-1];
+                        if (count === Math.round(year1Users)) {
+                            name = `Year 1 projection (${count.toLocaleString()} users)`;
+                        } else if (count === Math.round(year2Users)) {
+                            name = `Year 2 projection (${count.toLocaleString()} users)`;
+                        } else if (count === Math.round(year3Users)) {
+                            name = `Year 3 projection (${count.toLocaleString()} users)`;
+                        } else {
+                            name = `${(prevCount + 1).toLocaleString()}-${count.toLocaleString()} users`;
+                        }
+                    }
+                    
+                    segments.push({ name, count });
+                }
+                
+                return segments;
+            };
+            
+            const userSegments = generateUserSegments();
 
             const userAnalysisBody = document.getElementById('userAnalysisBody');
             userAnalysisBody.innerHTML = userSegments.map(segment => {
@@ -1362,6 +1565,21 @@
 
         // Initial calculation
         calculateTCO();
+        
+        // Initialize sliders
+        initializeSliders();
+
+        // Auto-switch Neo4j to paid if orgs > 4, or free if <= 4
+        function autoSwitchNeo4jPaid(numOrgs) {
+            const neo4jSelect = document.getElementById('graphDbOption');
+            if (parseInt(numOrgs, 10) > 4 && neo4jSelect.value !== 'paid') {
+                neo4jSelect.value = 'paid';
+                calculateTCO();
+            } else if (parseInt(numOrgs, 10) <= 4 && neo4jSelect.value !== 'free') {
+                neo4jSelect.value = 'free';
+                calculateTCO();
+            }
+        }
     </script>
 </body>
 </html>
