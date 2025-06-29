@@ -157,18 +157,27 @@
             font-weight: bold;
         }
         .chart-container {
-            margin: 30px 0;
+            margin: 40px 0;
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
         }
-        .chart-grid {
+        .chart-container h3 {
+            margin: 0 0 25px 0;
+            color: #1976D2;
+            font-size: 1.4em;
+            text-align: center;
+            font-weight: 600;
+        }
+        /* Remove the chart-grid CSS since we're using a single chart */
+        /* .chart-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin: 30px 0;
-        }
+        } */
         .chart-box {
             background: white;
             padding: 20px;
@@ -402,23 +411,9 @@
             </div>
         </div>
 
-        <div class="chart-grid">
-            <div class="chart-box">
-                <h3>📈 Cost Per User Over Time</h3>
-                <canvas id="costPerUserChart"></canvas>
-            </div>
-            <div class="chart-box">
-                <h3>📊 Cost Composition Per User</h3>
-                <canvas id="costCompositionChart"></canvas>
-            </div>
-            <div class="chart-box">
-                <h3>📊 Cost Drivers Ranking</h3>
-                <canvas id="costDriversChart"></canvas>
-            </div>
-            <div class="chart-box">
-                <h3>📈 Users vs Total Cost</h3>
-                <canvas id="scaleChart"></canvas>
-            </div>
+        <div class="chart-container">
+            <h3>📈 Cost Over Time vs User Scale</h3>
+            <canvas id="unifiedChart"></canvas>
         </div>
 
         <div class="user-cost-analysis">
@@ -527,8 +522,8 @@
     </div>
 
     <script>
-        // Chart instances
-        let costPerUserChart, costCompositionChart, costDriversChart, scaleChart;
+        // Single chart instance
+        let unifiedChart;
 
         // Slider utility functions
         function updateSliderValue(sliderId, valueId, suffix = '', formatNumber = false) {
@@ -601,212 +596,76 @@
             }).format(amount);
         }
 
-        function updateCharts(data) {
-            const ctx1 = document.getElementById('costPerUserChart').getContext('2d');
-            const ctx2 = document.getElementById('costCompositionChart').getContext('2d');
-            const ctx3 = document.getElementById('costDriversChart').getContext('2d');
-            const ctx4 = document.getElementById('scaleChart').getContext('2d');
+        function updateUnifiedChart(data) {
+            const ctx = document.getElementById('unifiedChart').getContext('2d');
 
-            // Destroy existing charts if they exist
-            if (costPerUserChart) costPerUserChart.destroy();
-            if (costCompositionChart) costCompositionChart.destroy();
-            if (costDriversChart) costDriversChart.destroy();
-            if (scaleChart) scaleChart.destroy();
+            // Destroy existing chart if it exists
+            if (unifiedChart) unifiedChart.destroy();
 
-            // Cost Per User Over Time
-            costPerUserChart = new Chart(ctx1, {
+            // Create unified chart showing cost over time with user scale
+            unifiedChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.userScaleLabels,
+                    labels: data.timeLabels,
                     datasets: [{
-                        label: 'Year 1',
-                        data: data.costPerUserByScale.year1,
+                        label: 'Total Monthly Cost',
+                        data: data.monthlyCosts,
                         borderColor: '#1976D2',
                         backgroundColor: 'rgba(25, 118, 210, 0.1)',
-                        tension: 0.1
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     }, {
-                        label: 'Year 2',
-                        data: data.costPerUserByScale.year2,
+                        label: 'Cost Per User',
+                        data: data.costPerUser,
                         borderColor: '#388E3C',
                         backgroundColor: 'rgba(56, 142, 60, 0.1)',
-                        tension: 0.1
-                    }, {
-                        label: 'Year 3',
-                        data: data.costPerUserByScale.year3,
-                        borderColor: '#D32F2F',
-                        backgroundColor: 'rgba(211, 47, 47, 0.1)',
-                        tension: 0.1
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        yAxisID: 'y1'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + formatCurrencyPrecise(context.parsed.y);
-                                }
-                            }
-                        }
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Cost Composition Chart
-            costCompositionChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['Year 1', 'Year 2', 'Year 3'],
-                    datasets: [{
-                        label: 'Development',
-                        data: data.costComposition.development,
-                        backgroundColor: '#1976D2'
-                    }, {
-                        label: 'Infrastructure',
-                        data: data.costComposition.infrastructure,
-                        backgroundColor: '#388E3C'
-                    }, {
-                        label: 'AWS Services',
-                        data: data.costComposition.aws,
-                        backgroundColor: '#F57C00'
-                    }, {
-                        label: 'Graph Database',
-                        data: data.costComposition.graphDB,
-                        backgroundColor: '#7B1FA2'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            stacked: true,
-                        },
-                        y: {
-                            stacked: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + formatCurrencyPrecise(context.parsed.y) + '/user';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Cost Drivers Chart
-            costDriversChart = new Chart(ctx3, {
-                type: 'bar',
-                data: {
-                    labels: data.costDrivers.labels,
-                    datasets: [{
-                        label: 'Cost per User Impact',
-                        data: data.costDrivers.values,
-                        backgroundColor: [
-                            '#1976D2',
-                            '#388E3C',
-                            '#F57C00',
-                            '#7B1FA2',
-                            '#D32F2F',
-                            '#00796B',
-                            '#5D4037',
-                            '#455A64'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return formatCurrencyPrecise(context.parsed.x) + '/user/month';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Scale Chart
-            scaleChart = new Chart(ctx4, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Year 1',
-                        data: data.scaleData.year1,
-                        backgroundColor: 'rgba(25, 118, 210, 0.6)',
-                        borderColor: '#1976D2',
-                        pointRadius: 8
-                    }, {
-                        label: 'Year 2',
-                        data: data.scaleData.year2,
-                        backgroundColor: 'rgba(56, 142, 60, 0.6)',
-                        borderColor: '#388E3C',
-                        pointRadius: 8
-                    }, {
-                        label: 'Year 3',
-                        data: data.scaleData.year3,
-                        backgroundColor: 'rgba(211, 47, 47, 0.6)',
-                        borderColor: '#D32F2F',
-                        pointRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Shows how total costs scale with user growth',
+                            text: 'Cost Evolution Over Time with User Growth',
                             font: {
-                                size: 12
+                                size: 16,
+                                weight: 'bold'
                             },
-                            color: '#666'
+                            color: '#333'
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    const costPerUser = context.parsed.y / context.parsed.x;
-                                    return context.dataset.label + ': ' + 
-                                           context.parsed.x.toLocaleString() + ' users, ' +
-                                           formatCurrency(context.parsed.y) + '/month' +
-                                           ' (' + formatCurrencyPrecise(costPerUser) + '/user)';
+                                    if (context.dataset.label === 'Total Monthly Cost') {
+                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                    } else {
+                                        return context.dataset.label + ': ' + formatCurrencyPrecise(context.parsed.y);
+                                    }
+                                },
+                                afterLabel: function(context) {
+                                    return 'Users: ' + data.userCounts[context.dataIndex].toLocaleString();
                                 }
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
                             }
                         }
                     },
@@ -814,27 +673,58 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Number of Users'
+                                text: 'Time (Months)',
+                                font: {
+                                    weight: 'bold'
+                                }
                             },
-                            type: 'logarithmic',
                             ticks: {
-                                callback: function(value) {
-                                    if (value >= 1000000) return (value/1000000) + 'M';
-                                    if (value >= 1000) return (value/1000) + 'K';
-                                    return value;
+                                callback: function(value, index) {
+                                    // Show month labels at key points
+                                    const month = index + 1;
+                                    if (month === 1 || month % 6 === 0 || month === data.timeLabels.length) {
+                                        return 'Month ' + month;
+                                    }
+                                    return '';
                                 }
                             }
                         },
                         y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
                             title: {
                                 display: true,
-                                text: 'Total Monthly Cost'
+                                text: 'Total Monthly Cost ($)',
+                                font: {
+                                    weight: 'bold'
+                                }
                             },
                             ticks: {
                                 callback: function(value) {
                                     return formatCurrency(value);
                                 }
                             }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Cost Per User ($/month)',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
                         }
                     }
                 }
@@ -1165,7 +1055,92 @@
             
             const timelinePoints = generateContinuousTimelinePoints();
             
+            // Calculate data for unified chart
+            const generateTimelineData = () => {
+                const months = 36; // 3 years
+                const timeLabels = [];
+                const monthlyCosts = [];
+                const costPerUser = [];
+                const userCounts = [];
+                
+                for (let month = 1; month <= months; month++) {
+                    timeLabels.push(month);
+                    
+                    // Calculate user growth for this month
+                    const growthFactor = Math.pow(1 + userGrowth, (month - 1) / 12);
+                    const currentUsers = expectedUsers * growthFactor;
+                    userCounts.push(currentUsers);
+                    
+                    // Calculate costs for this month
+                    let monthlyCost = 0;
+                    
+                    // Development costs
+                    if (month <= mvpDuration) {
+                        // MVP development phase
+                        const mvpMonthlyCost = mvpTotal / mvpDuration;
+                        monthlyCost += mvpMonthlyCost;
+                    } else {
+                        // Maintenance phase
+                        const maintenanceGrowth = Math.pow(1 + supportGrowth, Math.floor((month - mvpDuration - 1) / 12));
+                        const monthlyMaintenance = baseMaintenanceMonthly * maintenanceGrowth;
+                        monthlyCost += monthlyMaintenance;
+                    }
+                    
+                    // Infrastructure costs
+                    const infrastructureGrowth = Math.pow(1 + hostingGrowth, Math.floor((month - 1) / 12));
+                    monthlyCost += hosting * infrastructureGrowth;
+                    monthlyCost += thirdParty * Math.pow(1.1, Math.floor((month - 1) / 12));
+                    monthlyCost += licensing * Math.pow(1 + licensingGrowth, Math.floor((month - 1) / 12));
+                    
+                    // Dev tools (annual cost divided by 12)
+                    if (month % 12 === 1) {
+                        monthlyCost += devTools;
+                    }
+                    
+                    // Graph Database costs
+                    if (graphDbOption === 'paid') {
+                        const orgGrowth = Math.pow(1 + organizationGrowth, Math.floor((month - 1) / 12));
+                        const currentOrgs = numOrganizations * orgGrowth;
+                        const instances = Math.ceil(currentOrgs / orgsPerInstance);
+                        monthlyCost += instances * neo4jInstanceCost / 12;
+                    }
+                    
+                    // AWS Services costs
+                    const awsGrowth = Math.pow(1 + lambdaGrowth, Math.floor((month - 1) / 12));
+                    const storageGrowthFactor = Math.pow(1 + storageGrowth, Math.floor((month - 1) / 12));
+                    const dataTransferGrowthFactor = Math.pow(1 + dataTransferGrowth, Math.floor((month - 1) / 12));
+                    const logsGrowthFactor = Math.pow(1 + logsGrowth, Math.floor((month - 1) / 12));
+                    
+                    // Scale AWS costs with user growth
+                    const userScaleFactor = currentUsers / expectedUsers;
+                    
+                    monthlyCost += dynamodbCost * storageGrowthFactor;
+                    monthlyCost += cognitoCostPerUser * currentUsers;
+                    monthlyCost += lambdaCostPerMillion * lambdaRequestsPerMonth * awsGrowth * userScaleFactor;
+                    monthlyCost += apiGatewayCostPerMillion * apiGatewayRequests * awsGrowth * userScaleFactor;
+                    monthlyCost += cloudFrontCostPerGB * cloudFrontData * dataTransferGrowthFactor * userScaleFactor;
+                    monthlyCost += s3CostPerGB * s3Storage * storageGrowthFactor * Math.sqrt(userScaleFactor);
+                    monthlyCost += cloudWatchCostPerGB * cloudWatchLogs * logsGrowthFactor * userScaleFactor;
+                    monthlyCost += eventBridgeCostPerMillion * eventBridgeEvents * awsGrowth * userScaleFactor;
+                    monthlyCost += sqsCostPerMillion * sqsMessages * awsGrowth * userScaleFactor;
+                    
+                    monthlyCosts.push(monthlyCost);
+                    costPerUser.push(currentUsers > 0 ? monthlyCost / currentUsers : 0);
+                }
+                
+                return {
+                    timeLabels,
+                    monthlyCosts,
+                    costPerUser,
+                    userCounts
+                };
+            };
+            
+            const timelineData = generateTimelineData();
+            
             const chartData = {
+                ...timelineData,
+                // Keep some legacy data for other calculations
                 costPerUserByScale: {
                     year1: userScalePoints.map(u => calculateCostPerUserAtScale(u, 1)),
                     year2: userScalePoints.map(u => calculateCostPerUserAtScale(u, 2)),
@@ -1232,7 +1207,7 @@
             chartData.costDrivers.labels = sortedDrivers.map(d => d.label);
             chartData.costDrivers.values = sortedDrivers.map(d => d.value);
 
-            updateCharts(chartData);
+            updateUnifiedChart(chartData);
 
             // Update summary
             document.getElementById('totalTCO').textContent = formatCurrency(threeYearTotal);
