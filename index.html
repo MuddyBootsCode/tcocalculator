@@ -276,7 +276,7 @@
                 <div class="variable-group">
                     <h4>📈 Growth & Scale Controls</h4>
                     <div class="slider-control">
-                        <label>User Growth Rate: <span id="userGrowthValue">10</span></label>
+                        <label>Annual User Growth Rate: <span id="userGrowthValue">10</span></label>
                         <input type="range" id="userGrowthSlider" min="10" max="200" value="10" oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue', '%'); updateFromSlider('userGrowth', this.value);">
                     </div>
                     <div class="slider-control">
@@ -1143,29 +1143,22 @@
             // Generate continuous timeline scale points
             const generateContinuousTimelinePoints = () => {
                 const points = [];
-                
-                // Start from a small number
-                points.push(100);
-                points.push(500);
-                points.push(1000);
-                
-                // Add the actual year projections
-                points.push(Math.round(year1Users));
+                // Always start with expected users
+                points.push(Math.round(expectedUsers));
+                // Add intermediate increments above expected users
+                const increments = [1.5, 2, 3, 5, 10, 25, 50];
+                increments.forEach(factor => {
+                    const val = Math.round(expectedUsers * factor);
+                    if (val > expectedUsers && val < year3Users) points.push(val);
+                });
+                // Always include year 2 and year 3 projections
                 points.push(Math.round(year2Users));
                 points.push(Math.round(year3Users));
-                
-                // Add intermediate points between years
-                const year1ToYear2 = Math.round((year1Users + year2Users) / 2);
-                const year2ToYear3 = Math.round((year2Users + year3Users) / 2);
-                points.push(year1ToYear2);
-                points.push(year2ToYear3);
-                
-                // Add future projections if reasonable
+                // Add projections for years 4 and 5 if useful
                 const year4Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 3));
                 const year5Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 4));
-                if (year4Users <= 1000000) points.push(year4Users);
-                if (year5Users <= 1000000) points.push(year5Users);
-                
+                if (year4Users > year3Users && year4Users <= 1000000) points.push(year4Users);
+                if (year5Users > year3Users && year5Users <= 1000000) points.push(year5Users);
                 // Remove duplicates and sort
                 return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
             };
