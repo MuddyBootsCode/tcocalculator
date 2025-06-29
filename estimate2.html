@@ -261,14 +261,14 @@
                 <div class="summary-item">
                     <h3>📊 Cost Per User</h3>
                     <div class="value" id="costPerUser">$0</div>
-                </div>
+                    </div>
                 <div class="summary-item">
                     <h3>📅 Monthly Cost Per User</h3>
                     <div class="value" id="monthlyCostPerUser">$0</div>
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
+                
         <!-- Interactive Controls Section -->
         <div class="variables-section">
             <h2>🎛️ Interactive Visualization Controls</h2>
@@ -324,19 +324,19 @@
                 <div class="variable-group">
                     <h4>💰 Cost Controls</h4>
                     <div class="slider-control">
-                        <label>Expert Daily Rate: $<span id="expertRateValue">2,250</span></label>
+                        <label>Expert Daily Rate: <span id="expertRateValue">2,250</span></label>
                         <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '$', true); updateFromSlider('expertRate', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Engineer Daily Rate: $<span id="engineerRateValue">2,000</span></label>
+                        <label>Engineer Daily Rate: <span id="engineerRateValue">2,000</span></label>
                         <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '$', true); updateFromSlider('engineerRate', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Frontend Daily Rate: $<span id="frontendRateValue">1,500</span></label>
+                        <label>Frontend Daily Rate: <span id="frontendRateValue">1,500</span></label>
                         <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '$', true); updateFromSlider('frontendRate', this.value);">
                     </div>
                 </div>
-
+                
                 <div class="variable-group">
                     <h4>⌚ MVP Development Hours</h4>
                     <div class="slider-control">
@@ -397,8 +397,8 @@
                     <div class="slider-control">
                         <label>Neo4j Bundle Cost: $<span id="neo4jInstanceCostValue">36,000</span></label>
                         <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="36000" oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '$', true); updateFromSlider('neo4jInstanceCost', this.value);">
-                    </div>
                 </div>
+                    </div>
             </div>
         </div>
 
@@ -1046,7 +1046,7 @@
                 
                 return (fixedCosts + variableCosts) / userCount / 12;
             };
-
+            
             // Calculate total cost at scale properly
             const calculateTotalCostAtScale = (userCount, year) => {
                 // Get base values for the year

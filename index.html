@@ -325,15 +325,15 @@
                     <h4>💰 Cost Controls</h4>
                     <div class="slider-control">
                         <label>Expert Daily Rate: $<span id="expertRateValue">2,250</span></label>
-                        <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '$', true); updateFromSlider('expertRate', this.value);">
+                        <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '', true); updateFromSlider('expertRate', this.value);">
                     </div>
                     <div class="slider-control">
                         <label>Engineer Daily Rate: $<span id="engineerRateValue">2,000</span></label>
-                        <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '$', true); updateFromSlider('engineerRate', this.value);">
+                        <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true); updateFromSlider('engineerRate', this.value);">
                     </div>
                     <div class="slider-control">
                         <label>Frontend Daily Rate: $<span id="frontendRateValue">1,500</span></label>
-                        <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '$', true); updateFromSlider('frontendRate', this.value);">
+                        <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true); updateFromSlider('frontendRate', this.value);">
                     </div>
                 </div>
 
@@ -563,9 +563,10 @@
             updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M');
             updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M');
             updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB');
-            updateSliderValue('expertRateSlider', 'expertRateValue', '$', true);
-            updateSliderValue('engineerRateSlider', 'engineerRateValue', '$', true);
-            updateSliderValue('frontendRateSlider', 'frontendRateValue', '$', true);
+            // Only leading $ for rate sliders (no trailing $)
+            updateSliderValue('expertRateSlider', 'expertRateValue', '', true);
+            updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true);
+            updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true);
             updateSliderValue('expertHoursSlider', 'expertHoursValue');
             updateSliderValue('engineerHoursSlider', 'engineerHoursValue');
             updateSliderValue('frontendHoursSlider', 'frontendHoursValue');
@@ -1571,6 +1572,7 @@
 
         // Auto-switch Neo4j to paid if orgs > 4, or free if <= 4
         function autoSwitchNeo4jPaid(numOrgs) {
+            // If organizations > 4, switch to 'Paid'; else, switch to 'Free'
             const neo4jSelect = document.getElementById('graphDbOption');
             if (parseInt(numOrgs, 10) > 4 && neo4jSelect.value !== 'paid') {
                 neo4jSelect.value = 'paid';
@@ -1580,6 +1582,14 @@
                 calculateTCO();
             }
         }
+
+        // Set default values for expected users and user growth
+        document.getElementById('expectedUsers').value = 20000;
+        document.getElementById('userGrowth').value = 10;
+        document.getElementById('expectedUsersSlider').value = 20000;
+        document.getElementById('userGrowthSlider').value = 10;
+        updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true);
+        updateSliderValue('userGrowthSlider', 'userGrowthValue', '%');
     </script>
 </body>
 </html>
