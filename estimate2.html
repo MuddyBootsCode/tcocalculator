@@ -387,8 +387,8 @@
                         </select>
                     </div>
                     <div class="slider-control">
-                        <label>Number of Organizations: <span id="numOrganizationsValue">8</span></label>
-                        <input type="range" id="numOrganizationsSlider" min="1" max="50" value="8" oninput="updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue'); updateFromSlider('numOrganizations', this.value);">
+                        <label>Number of Organizations: <span id="numOrganizationsValue">2</span></label>
+                        <input type="range" id="numOrganizationsSlider" min="1" max="50" value="2" oninput="updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue'); updateFromSlider('numOrganizations', this.value); autoSwitchNeo4jPaid(this.value);">
                     </div>
                     <div class="slider-control">
                         <label>Organizations per Instance: <span id="orgsPerInstanceValue">4</span></label>
@@ -480,7 +480,7 @@
         <input type="number" id="mvpDuration" value="6">
         <input type="number" id="workingDays" value="21">
         <input type="number" id="expectedUsers" value="20000">
-        <input type="number" id="numOrganizations" value="8">
+        <input type="number" id="numOrganizations" value="2">
         <input type="number" id="userGrowth" value="10">
         <input type="number" id="organizationGrowth" value="100">
         <input type="number" id="expertMaintenanceHours" value="15">
@@ -1568,6 +1568,18 @@
         
         // Initialize sliders
         initializeSliders();
+
+        // Auto-switch Neo4j to paid if orgs > 4, or free if <= 4
+        function autoSwitchNeo4jPaid(numOrgs) {
+            const neo4jSelect = document.getElementById('graphDbOption');
+            if (parseInt(numOrgs, 10) > 4 && neo4jSelect.value !== 'paid') {
+                neo4jSelect.value = 'paid';
+                calculateTCO();
+            } else if (parseInt(numOrgs, 10) <= 4 && neo4jSelect.value !== 'free') {
+                neo4jSelect.value = 'free';
+                calculateTCO();
+            }
+        }
     </script>
 </body>
 </html>
