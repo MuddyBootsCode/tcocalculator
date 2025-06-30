@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Development TCO Calculator</title>
+    <title>Software Development TCO Calculator - Enhanced</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         body {
@@ -12,13 +12,15 @@
             background-color: #f5f5f5;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        
+        /* Original variable section styles */
         .variables-section {
             background-color: #e8f4f8;
             padding: 20px;
@@ -60,152 +62,6 @@
         .input-row select {
             width: auto;
             text-align: left;
-        }
-        .team-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .team-input {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .team-input label {
-            font-size: 14px;
-            color: #555;
-            margin-right: 8px;
-        }
-        .team-input input {
-            width: 70px;
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: right;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 14px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #333;
-        }
-        .number {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-        .total-row {
-            background-color: #fff3cd;
-            font-weight: bold;
-        }
-        .section-header {
-            background-color: #2196F3;
-            color: white;
-        }
-        .currency {
-            color: #2e7d32;
-        }
-        h1 {
-            color: #1976D2;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #333;
-            border-bottom: 2px solid #2196F3;
-            padding-bottom: 5px;
-        }
-        .summary-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .summary-amount {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .summary-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .summary-item {
-            text-align: center;
-        }
-        .summary-item h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-        .summary-item .value {
-            font-size: 1.8em;
-            font-weight: bold;
-        }
-        .chart-container {
-            margin: 40px 0;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
-        }
-        .chart-container h3 {
-            margin: 0 0 25px 0;
-            color: #1976D2;
-            font-size: 1.4em;
-            text-align: center;
-            font-weight: 600;
-        }
-        /* Remove the chart-grid CSS since we're using a single chart */
-        /* .chart-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 30px 0;
-        } */
-        .chart-box {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .chart-box h3 {
-            margin: 0 0 20px 0;
-            color: #1976D2;
-            font-size: 1.2em;
-        }
-        canvas {
-            max-height: 300px;
-        }
-        .user-cost-analysis {
-            margin: 30px 0;
-        }
-        .user-cost-analysis table {
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .positive {
-            color: #2e7d32;
-        }
-        .negative {
-            color: #d32f2f;
         }
         .slider-control {
             margin-bottom: 15px;
@@ -257,11 +113,109 @@
             font-weight: bold;
             color: #1976D2;
         }
+        
+        /* Chart Grid Layouts */
+        .chart-grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .chart-grid-1x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .chart-container h3 {
+            margin: 0 0 20px 0;
+            color: #1976D2;
+            font-size: 1.2em;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .chart-box {
+            position: relative;
+            height: 300px;
+        }
+        
+        .chart-box.tall {
+            height: 400px;
+        }
+        
+        canvas {
+            max-height: 100%;
+        }
+        
+        h1 { color: #1976D2; text-align: center; margin-bottom: 30px; }
+        h2 { color: #333; border-bottom: 2px solid #2196F3; padding-bottom: 5px; }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .summary-amount {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-item h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .summary-item .value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: bold; color: #333; }
+        .number { text-align: right; font-family: 'Courier New', monospace; }
+        .total-row { background-color: #fff3cd; font-weight: bold; }
+        .section-header { background-color: #2196F3; color: white; }
+        .currency { color: #2e7d32; }
+        .positive { color: #2e7d32; }
+        .negative { color: #d32f2f; }
+        .user-cost-analysis {
+            margin: 30px 0;
+        }
+        .user-cost-analysis table {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Software Development TCO Calculator</h1>
+        <h1>Software Development TCO Calculator - Enhanced</h1>
         
         <div class="summary-box">
             <h2 style="margin: 0; border: none; color: white;">💰 3-Year Total Cost of Ownership</h2>
@@ -278,23 +232,23 @@
             </div>
         </div>
 
-        <!-- Interactive Controls Section -->
+        <!-- Complete Interactive Controls Section (restored from original) -->
         <div class="variables-section">
             <h2>🎛️ Interactive Visualization Controls</h2>
             <div class="variables-grid">
                 <div class="variable-group">
                     <h4>📈 Growth & Scale Controls</h4>
                     <div class="slider-control">
-                        <label>Annual User Growth Rate: <span id="userGrowthValue">10</span></label>
-                        <input type="range" id="userGrowthSlider" min="10" max="200" value="10" oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue', '%'); updateFromSlider('userGrowth', this.value);">
+                        <label>Annual User Growth Rate: <span id="userGrowthValue">10</span>%</label>
+                        <input type="range" id="userGrowthSlider" min="10" max="200" value="10" oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue'); updateFromSlider('userGrowth', this.value);">
                     </div>
                     <div class="slider-control">
                         <label>Expected Users: <span id="expectedUsersValue">20,000</span></label>
                         <input type="range" id="expectedUsersSlider" min="100" max="100000" value="20000" oninput="updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true); updateFromSlider('expectedUsers', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Organization Growth: <span id="organizationGrowthValue">100</span></label>
-                        <input type="range" id="organizationGrowthSlider" min="10" max="300" value="100" oninput="updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue', '%'); updateFromSlider('organizationGrowth', this.value);">
+                        <label>Organization Growth: <span id="organizationGrowthValue">100</span>%</label>
+                        <input type="range" id="organizationGrowthSlider" min="10" max="300" value="100" oninput="updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue'); updateFromSlider('organizationGrowth', this.value);">
                     </div>
                 </div>
                 
@@ -317,16 +271,16 @@
                 <div class="variable-group">
                     <h4>☁️ AWS Usage Controls</h4>
                     <div class="slider-control">
-                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span></label>
-                        <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
+                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span>M</label>
+                        <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span></label>
-                        <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M'); updateFromSlider('apiGatewayRequests', this.value);">
+                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span>M</label>
+                        <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue'); updateFromSlider('apiGatewayRequests', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span></label>
-                        <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB'); updateFromSlider('cloudFrontData', this.value);">
+                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span>GB</label>
+                        <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue'); updateFromSlider('cloudFrontData', this.value);">
                     </div>
                 </div>
                 
@@ -362,7 +316,7 @@
                     </div>
                     <div class="slider-control">
                         <label>MVP Duration: <span id="mvpDurationValue">6</span> months</label>
-                        <input type="range" id="mvpDurationSlider" min="3" max="12" value="6" oninput="updateSliderValue('mvpDurationSlider', 'mvpDurationValue', ' months'); updateFromSlider('mvpDuration', this.value);">
+                        <input type="range" id="mvpDurationSlider" min="3" max="12" value="6" oninput="updateSliderValue('mvpDurationSlider', 'mvpDurationValue'); updateFromSlider('mvpDuration', this.value);">
                     </div>
                 </div>
 
@@ -381,8 +335,12 @@
                         <input type="range" id="frontendMaintenanceHoursSlider" min="5" max="40" value="17" oninput="updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue'); updateFromSlider('frontendMaintenanceHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Maintenance Rate: <span id="maintenanceRateMultiplierValue">85</span></label>
-                        <input type="range" id="maintenanceRateMultiplierSlider" min="50" max="100" value="85" oninput="updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue', '%'); updateFromSlider('maintenanceRateMultiplier', this.value);">
+                        <label>Maintenance Rate: <span id="maintenanceRateMultiplierValue">85</span>%</label>
+                        <input type="range" id="maintenanceRateMultiplierSlider" min="50" max="100" value="85" oninput="updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue'); updateFromSlider('maintenanceRateMultiplier', this.value);">
+                    </div>
+                    <div class="slider-control">
+                        <label>Support Growth Rate: <span id="supportGrowthValue">25</span>%</label>
+                        <input type="range" id="supportGrowthSlider" min="0" max="50" value="25" oninput="updateSliderValue('supportGrowthSlider', 'supportGrowthValue'); updateFromSlider('supportGrowth', this.value);">
                     </div>
                 </div>
 
@@ -405,15 +363,58 @@
                     </div>
                     <div class="slider-control">
                         <label>Neo4j Bundle Cost: $<span id="neo4jInstanceCostValue">36,000</span></label>
-                        <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="36000" oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '$', true); updateFromSlider('neo4jInstanceCost', this.value);">
+                        <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="36000" oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '', true); updateFromSlider('neo4jInstanceCost', this.value);">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="chart-container">
-            <h3>📈 Cost Over Time vs User Scale</h3>
-            <canvas id="unifiedChart"></canvas>
+        <!-- Main Visualizations Grid -->
+        <div class="chart-grid-2x2">
+            <div class="chart-container">
+                <h3>📈 Cost Over Time</h3>
+                <div class="chart-box">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>🥧 Cost Breakdown by Category</h3>
+                <div class="chart-box">
+                    <canvas id="categoryPieChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>📊 Cost Composition by Year</h3>
+                <div class="chart-box">
+                    <canvas id="yearlyStackedChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>☁️ AWS Services Breakdown</h3>
+                <div class="chart-box">
+                    <canvas id="awsBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Insights -->
+        <div class="chart-grid-1x2">
+            <div class="chart-container">
+                <h3>💡 Cost Per User by Scale</h3>
+                <div class="chart-box">
+                    <canvas id="scaleEfficiencyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>📈 Growth Impact</h3>
+                <div class="chart-box">
+                    <canvas id="growthImpactChart"></canvas>
+                </div>
+            </div>
         </div>
 
         <div class="user-cost-analysis">
@@ -461,7 +462,7 @@
         </table>
     </div>
 
-    <!-- Hidden input fields for calculations -->
+    <!-- Hidden input fields for calculations (complete original set) -->
     <div style="display: none;">
         <input type="number" id="numExperts" value="1">
         <input type="number" id="numEngineers" value="1">
@@ -508,10 +509,6 @@
         <input type="number" step="0.1" id="dataPerUser" value="500">
         <input type="number" step="0.1" id="storagePerUser" value="100">
         <input type="number" id="activeUserRate" value="70">
-        <select id="graphDbOption">
-            <option value="free">Free Neo4j (Docker/Community)</option>
-            <option value="paid">Paid Neo4j (Discovery Bundle)</option>
-        </select>
         <input type="number" id="orgsPerInstance" value="4">
         <input type="number" id="neo4jInstanceCost" value="36000">
         <input type="number" id="hosting" value="150">
@@ -522,10 +519,17 @@
     </div>
 
     <script>
-        // Single chart instance
-        let unifiedChart;
+        // Chart instances
+        let charts = {};
 
-        // Slider utility functions
+        // Color schemes
+        const colorSchemes = {
+            primary: ['#1976D2', '#2196F3', '#42A5F5', '#64B5F6', '#90CAF9'],
+            categories: ['#1976D2', '#388E3C', '#F57C00', '#7B1FA2', '#D32F2F', '#795548', '#607D8B'],
+            aws: ['#FF9800', '#FF5722', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#00BCD4', '#4CAF50']
+        };
+
+        // Utility functions
         function updateSliderValue(sliderId, valueId, suffix = '', formatNumber = false) {
             const slider = document.getElementById(sliderId);
             const valueElement = document.getElementById(valueId);
@@ -546,38 +550,6 @@
             }
         }
 
-        // Initialize slider values on page load
-        function initializeSliders() {
-            // Update all slider display values
-            updateSliderValue('userGrowthSlider', 'userGrowthValue', '%');
-            updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true);
-            updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue', '%');
-            updateSliderValue('numExpertsSlider', 'numExpertsValue');
-            updateSliderValue('numEngineersSlider', 'numEngineersValue');
-            updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue');
-            updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue', 'M');
-            updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue', 'M');
-            updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue', 'GB');
-            // Only leading $ for rate sliders (no trailing $)
-            updateSliderValue('expertRateSlider', 'expertRateValue', '', true);
-            updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true);
-            updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true);
-            updateSliderValue('expertHoursSlider', 'expertHoursValue');
-            updateSliderValue('engineerHoursSlider', 'engineerHoursValue');
-            updateSliderValue('frontendHoursSlider', 'frontendHoursValue');
-            updateSliderValue('mvpDurationSlider', 'mvpDurationValue', ' months');
-            updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue');
-            updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue');
-            updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue');
-            updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue', '%');
-            updateSliderValue('hostingSlider', 'hostingValue', '$', true);
-            updateSliderValue('devToolsSlider', 'devToolsValue', '$', true);
-            updateSliderValue('supportGrowthSlider', 'supportGrowthValue', '%');
-            updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue');
-            updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue');
-            updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '$', true);
-        }
-
         function formatCurrency(amount) {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
@@ -596,141 +568,243 @@
             }).format(amount);
         }
 
-        function updateUnifiedChart(data) {
-            const ctx = document.getElementById('unifiedChart').getContext('2d');
-
-            // Destroy existing chart if it exists
-            if (unifiedChart) unifiedChart.destroy();
-
-            // Create unified chart showing cost over time with user scale
-            unifiedChart = new Chart(ctx, {
+        // Chart creation functions
+        function createTimelineChart(data) {
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            if (charts.timeline) charts.timeline.destroy();
+            
+            charts.timeline = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.timeLabels,
+                    labels: data.timeLabels.map((_, i) => `Month ${i + 1}`),
                     datasets: [{
                         label: 'Total Monthly Cost',
                         data: data.monthlyCosts,
-                        borderColor: '#1976D2',
-                        backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                        borderColor: colorSchemes.primary[0],
+                        backgroundColor: colorSchemes.primary[0] + '20',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 6,
-                        pointHoverRadius: 8
-                    }, {
-                        label: 'Cost Per User',
-                        data: data.costPerUser,
-                        borderColor: '#388E3C',
-                        backgroundColor: 'rgba(56, 142, 60, 0.1)',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        yAxisID: 'y1'
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
                     plugins: {
-                        title: {
-                            display: true,
-                            text: 'Cost Evolution Over Time with User Growth',
-                            font: {
-                                size: 16,
-                                weight: 'bold'
-                            },
-                            color: '#333'
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
-                                    if (context.dataset.label === 'Total Monthly Cost') {
-                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
-                                    } else {
-                                        return context.dataset.label + ': ' + formatCurrencyPrecise(context.parsed.y);
-                                    }
-                                },
-                                afterLabel: function(context) {
-                                    return 'Users: ' + data.userCounts[context.dataIndex].toLocaleString();
-                                }
-                            }
-                        },
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                usePointStyle: true,
-                                padding: 20
+                                label: (context) => 'Cost: ' + formatCurrency(context.parsed.y)
                             }
                         }
                     },
                     scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Time (Months)',
-                                font: {
-                                    weight: 'bold'
-                                }
-                            },
-                            ticks: {
-                                callback: function(value, index) {
-                                    // Show month labels at key points
-                                    const month = index + 1;
-                                    if (month === 1 || month % 6 === 0 || month === data.timeLabels.length) {
-                                        return 'Month ' + month;
-                                    }
-                                    return '';
-                                }
-                            }
-                        },
                         y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'Total Monthly Cost ($)',
-                                font: {
-                                    weight: 'bold'
-                                }
-                            },
                             ticks: {
-                                callback: function(value) {
-                                    return formatCurrency(value);
-                                }
+                                callback: value => formatCurrency(value)
                             }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Cost Per User ($/month)',
-                                font: {
-                                    weight: 'bold'
-                                }
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            },
-                            grid: {
-                                drawOnChartArea: false,
-                            },
                         }
                     }
                 }
             });
         }
 
+        function createCategoryPieChart(breakdown) {
+            const ctx = document.getElementById('categoryPieChart').getContext('2d');
+            if (charts.categoryPie) charts.categoryPie.destroy();
+            
+            charts.categoryPie = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: breakdown.labels,
+                    datasets: [{
+                        data: breakdown.values,
+                        backgroundColor: colorSchemes.categories,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 15, usePointStyle: true }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const percentage = ((context.parsed / breakdown.total) * 100).toFixed(1);
+                                    return `${context.label}: ${formatCurrency(context.parsed)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createYearlyStackedChart(yearlyData) {
+            const ctx = document.getElementById('yearlyStackedChart').getContext('2d');
+            if (charts.yearlyStacked) charts.yearlyStacked.destroy();
+            
+            const datasets = yearlyData.categories.map((category, i) => ({
+                label: category,
+                data: yearlyData.years.map(year => yearlyData.data[year][category]),
+                backgroundColor: colorSchemes.categories[i],
+                borderColor: colorSchemes.categories[i],
+                borderWidth: 1
+            }));
+            
+            charts.yearlyStacked = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: yearlyData.years.map(y => `Year ${y}`),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { 
+                            stacked: true,
+                            ticks: {
+                                callback: value => formatCurrency(value)
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 10, usePointStyle: true }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createAWSBreakdownChart(awsData) {
+            const ctx = document.getElementById('awsBreakdownChart').getContext('2d');
+            if (charts.awsBreakdown) charts.awsBreakdown.destroy();
+            
+            charts.awsBreakdown = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: awsData.labels,
+                    datasets: [{
+                        data: awsData.values,
+                        backgroundColor: colorSchemes.aws,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 10, usePointStyle: true, font: { size: 10 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const percentage = ((context.parsed / awsData.total) * 100).toFixed(1);
+                                    return `${context.label}: ${formatCurrency(context.parsed)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createScaleEfficiencyChart(scaleData) {
+            const ctx = document.getElementById('scaleEfficiencyChart').getContext('2d');
+            if (charts.scaleEfficiency) charts.scaleEfficiency.destroy();
+            
+            charts.scaleEfficiency = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: scaleData.userCounts.map(u => u >= 1000 ? `${(u/1000).toFixed(0)}K` : u.toString()),
+                    datasets: [{
+                        label: 'Cost Per User',
+                        data: scaleData.costPerUser,
+                        borderColor: colorSchemes.primary[2],
+                        backgroundColor: colorSchemes.primary[2] + '20',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `Cost: ${formatCurrencyPrecise(context.parsed.y)}/user/month`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: value => '$' + value.toFixed(2)
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createGrowthImpactChart(growthData) {
+            const ctx = document.getElementById('growthImpactChart').getContext('2d');
+            if (charts.growthImpact) charts.growthImpact.destroy();
+            
+            charts.growthImpact = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: growthData.labels,
+                    datasets: [{
+                        label: 'Total Cost',
+                        data: growthData.totalCosts,
+                        backgroundColor: colorSchemes.primary[1],
+                        borderColor: colorSchemes.primary[0],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `Total: ${formatCurrency(context.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: value => formatCurrency(value)
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Complete calculateTCO function (restored from original)
         function calculateTCO() {
             // Get all input values
             const numExperts = parseFloat(document.getElementById('numExperts').value);
@@ -861,7 +935,7 @@
                 year3GraphDB = year3Instances * neo4jInstanceCost;
             }
 
-            // AWS Services costs with all new services
+            // AWS Services costs with all services
             const year1Users = expectedUsers;
             const year2Users = expectedUsers * (1 + userGrowth);
             const year3Users = expectedUsers * Math.pow(1 + userGrowth, 2);
@@ -919,307 +993,179 @@
             const costPerUser = avgUsers > 0 ? threeYearTotal / avgUsers : 0;
             const monthlyCostPerUser = avgUsers > 0 ? threeYearTotal / (avgUsers * 36) : 0;
 
-            // Calculate data for charts
-            const calculateCostPerUserAtScale = (userCount, year) => {
-                const yearTotal = year === 1 ? year1Total : year === 2 ? year2Total : year3Total;
-                const yearUsers = year === 1 ? year1Users : year === 2 ? year2Users : year3Users;
-                const scaleFactor = userCount / yearUsers;
-                
-                // Fixed costs remain the same, variable costs scale
-                const fixedCosts = (year === 1 ? year1Development : year === 2 ? year2Development : year3Development) +
-                                 (year === 1 ? year1Hosting : year === 2 ? year2Hosting : year3Hosting) +
-                                 (year === 1 ? year1ThirdParty : year === 2 ? year2ThirdParty : year3ThirdParty) +
-                                 (year === 1 ? year1Licensing : year === 2 ? year2Licensing : year3Licensing) +
-                                 annualDevTools +
-                                 (year === 1 ? year1GraphDB : year === 2 ? year2GraphDB : year3GraphDB);
-                
-                const variableCosts = (year === 1 ? year1AWSTotal : year === 2 ? year2AWSTotal : year3AWSTotal) * scaleFactor;
-                
-                return (fixedCosts + variableCosts) / userCount / 12;
-            };
-
-            // Calculate total cost at scale properly
-            const calculateTotalCostAtScale = (userCount, year) => {
-                // Get base values for the year
-                const yearDev = year === 1 ? year1Development : year === 2 ? year2Development : year3Development;
-                const yearHost = year === 1 ? year1Hosting : year === 2 ? year2Hosting : year3Hosting;
-                const yearThird = year === 1 ? year1ThirdParty : year === 2 ? year2ThirdParty : year3ThirdParty;
-                const yearLic = year === 1 ? year1Licensing : year === 2 ? year2Licensing : year3Licensing;
-                const yearGraph = year === 1 ? year1GraphDB : year === 2 ? year2GraphDB : year3GraphDB;
-                const baseUsers = year === 1 ? year1Users : year === 2 ? year2Users : year3Users;
-                
-                // Fixed costs (don't scale with users)
-                const fixedCosts = yearDev + yearHost + yearThird + yearLic + annualDevTools + yearGraph;
-                
-                // Variable AWS costs (scale with users)
-                const scaleFactor = userCount / baseUsers;
-                const dynamodbBase = dynamodbCost * 12 * (year === 1 ? 1 : year === 2 ? (1 + storageGrowth) : Math.pow(1 + storageGrowth, 2));
-                const cognitoCost = cognitoCostPerUser * userCount * 12;
-                const lambdaBase = lambdaCostPerMillion * lambdaRequestsPerMonth * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
-                const apiGatewayBase = apiGatewayCostPerMillion * apiGatewayRequests * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
-                const cloudFrontBase = cloudFrontCostPerGB * cloudFrontData * 12 * (year === 1 ? 1 : year === 2 ? (1 + dataTransferGrowth) : Math.pow(1 + dataTransferGrowth, 2));
-                const s3Base = s3CostPerGB * s3Storage * 12 * (year === 1 ? 1 : year === 2 ? (1 + storageGrowth) : Math.pow(1 + storageGrowth, 2));
-                const cloudWatchBase = cloudWatchCostPerGB * cloudWatchLogs * 12 * (year === 1 ? 1 : year === 2 ? (1 + logsGrowth) : Math.pow(1 + logsGrowth, 2));
-                const eventBridgeBase = eventBridgeCostPerMillion * eventBridgeEvents * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
-                const sqsBase = sqsCostPerMillion * sqsMessages * 12 * (year === 1 ? 1 : year === 2 ? (1 + lambdaGrowth) : Math.pow(1 + lambdaGrowth, 2));
-                
-                // Some AWS costs scale partially or fully with users
-                const variableAWSCosts = cognitoCost + 
-                    (dynamodbBase * Math.sqrt(scaleFactor)) + // DynamoDB scales sub-linearly
-                    (lambdaBase * scaleFactor) +
-                    (apiGatewayBase * scaleFactor) +
-                    (cloudFrontBase * scaleFactor) +
-                    (s3Base * Math.sqrt(scaleFactor)) + // Storage scales sub-linearly
-                    (cloudWatchBase * scaleFactor) +
-                    (eventBridgeBase * scaleFactor) +
-                    (sqsBase * scaleFactor);
-                
-                return fixedCosts + variableAWSCosts;
-            };
-
-            // Generate dynamic user scale points based on actual projections
-            const generateUserScalePoints = () => {
-                const points = [];
-                const maxYear3Users = year3Users;
-                
-                // Always include actual year values
-                points.push(Math.round(year1Users));
-                points.push(Math.round(year2Users));
-                points.push(Math.round(year3Users));
-                
-                // Add intermediate points for better visualization
-                if (year1Users > 100) points.push(100);
-                if (year1Users > 500) points.push(500);
-                if (year1Users > 1000) points.push(1000);
-                if (maxYear3Users > 5000) points.push(5000);
-                if (maxYear3Users > 10000) points.push(10000);
-                if (maxYear3Users > 25000) points.push(25000);
-                if (maxYear3Users > 50000) points.push(50000);
-                if (maxYear3Users > 100000) points.push(100000);
-                
-                // Add projections for years 4 and 5 if useful
-                const year4Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 3));
-                const year5Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 4));
-                if (year4Users <= 1000000) points.push(year4Users);
-                if (year5Users <= 1000000) points.push(year5Users);
-                
-                // Remove duplicates and sort
-                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
-            };
-            
-            const userScalePoints = generateUserScalePoints();
-            
-            // Generate year-specific scale points that reflect actual projections
-            const generateYearSpecificScalePoints = (year) => {
-                const baseUsers = year === 1 ? year1Users : year === 2 ? year2Users : year3Users;
-                const points = [];
-                
-                // Include the actual projected users for this year
-                points.push(Math.round(baseUsers));
-                
-                // Add scale points around the projected users
-                const scaleFactors = [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 5];
-                scaleFactors.forEach(factor => {
-                    const scaledUsers = Math.round(baseUsers * factor);
-                    if (scaledUsers > 0 && scaledUsers <= 1000000) {
-                        points.push(scaledUsers);
-                    }
-                });
-                
-                // Remove duplicates and sort
-                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
-            };
-            
-            // Generate continuous timeline scale points
-            const generateContinuousTimelinePoints = () => {
-                const points = [];
-                // Always start with expected users
-                points.push(Math.round(expectedUsers));
-                // Add intermediate increments above expected users
-                const increments = [1.5, 2, 3, 5, 10, 25, 50];
-                increments.forEach(factor => {
-                    const val = Math.round(expectedUsers * factor);
-                    if (val > expectedUsers && val < year3Users) points.push(val);
-                });
-                // Always include year 2 and year 3 projections
-                points.push(Math.round(year2Users));
-                points.push(Math.round(year3Users));
-                // Add projections for years 4 and 5 if useful
-                const year4Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 3));
-                const year5Users = Math.round(expectedUsers * Math.pow(1 + userGrowth, 4));
-                if (year4Users > year3Users && year4Users <= 1000000) points.push(year4Users);
-                if (year5Users > year3Users && year5Users <= 1000000) points.push(year5Users);
-                // Remove duplicates and sort
-                return [...new Set(points)].sort((a, b) => a - b).filter(p => p > 0);
-            };
-            
-            const timelinePoints = generateContinuousTimelinePoints();
-            
-            // Calculate data for unified chart
-            const generateTimelineData = () => {
-                const months = 36; // 3 years
-                const timeLabels = [];
-                const monthlyCosts = [];
-                const costPerUser = [];
-                const userCounts = [];
-                
-                for (let month = 1; month <= months; month++) {
-                    timeLabels.push(month);
-                    
-                    // Calculate user growth for this month
-                    const growthFactor = Math.pow(1 + userGrowth, (month - 1) / 12);
-                    const currentUsers = expectedUsers * growthFactor;
-                    userCounts.push(currentUsers);
-                    
-                    // Calculate costs for this month
-                    let monthlyCost = 0;
-                    
-                    // Development costs
-                    if (month <= mvpDuration) {
-                        // MVP development phase
-                        const mvpMonthlyCost = mvpTotal / mvpDuration;
-                        monthlyCost += mvpMonthlyCost;
-                    } else {
-                        // Maintenance phase
-                        const maintenanceGrowth = Math.pow(1 + supportGrowth, Math.floor((month - mvpDuration - 1) / 12));
-                        const monthlyMaintenance = baseMaintenanceMonthly * maintenanceGrowth;
-                        monthlyCost += monthlyMaintenance;
-                    }
-                    
-                    // Infrastructure costs
-                    const infrastructureGrowth = Math.pow(1 + hostingGrowth, Math.floor((month - 1) / 12));
-                    monthlyCost += hosting * infrastructureGrowth;
-                    monthlyCost += thirdParty * Math.pow(1.1, Math.floor((month - 1) / 12));
-                    monthlyCost += licensing * Math.pow(1 + licensingGrowth, Math.floor((month - 1) / 12));
-                    
-                    // Dev tools (annual cost divided by 12)
-                    if (month % 12 === 1) {
-                        monthlyCost += devTools;
-                    }
-                    
-                    // Graph Database costs
-                    if (graphDbOption === 'paid') {
-                        const orgGrowth = Math.pow(1 + organizationGrowth, Math.floor((month - 1) / 12));
-                        const currentOrgs = numOrganizations * orgGrowth;
-                        const instances = Math.ceil(currentOrgs / orgsPerInstance);
-                        monthlyCost += instances * neo4jInstanceCost / 12;
-                    }
-                    
-                    // AWS Services costs
-                    const awsGrowth = Math.pow(1 + lambdaGrowth, Math.floor((month - 1) / 12));
-                    const storageGrowthFactor = Math.pow(1 + storageGrowth, Math.floor((month - 1) / 12));
-                    const dataTransferGrowthFactor = Math.pow(1 + dataTransferGrowth, Math.floor((month - 1) / 12));
-                    const logsGrowthFactor = Math.pow(1 + logsGrowth, Math.floor((month - 1) / 12));
-                    
-                    // Scale AWS costs with user growth
-                    const userScaleFactor = currentUsers / expectedUsers;
-                    
-                    monthlyCost += dynamodbCost * storageGrowthFactor;
-                    monthlyCost += cognitoCostPerUser * currentUsers;
-                    monthlyCost += lambdaCostPerMillion * lambdaRequestsPerMonth * awsGrowth * userScaleFactor;
-                    monthlyCost += apiGatewayCostPerMillion * apiGatewayRequests * awsGrowth * userScaleFactor;
-                    monthlyCost += cloudFrontCostPerGB * cloudFrontData * dataTransferGrowthFactor * userScaleFactor;
-                    monthlyCost += s3CostPerGB * s3Storage * storageGrowthFactor * Math.sqrt(userScaleFactor);
-                    monthlyCost += cloudWatchCostPerGB * cloudWatchLogs * logsGrowthFactor * userScaleFactor;
-                    monthlyCost += eventBridgeCostPerMillion * eventBridgeEvents * awsGrowth * userScaleFactor;
-                    monthlyCost += sqsCostPerMillion * sqsMessages * awsGrowth * userScaleFactor;
-                    
-                    monthlyCosts.push(monthlyCost);
-                    costPerUser.push(currentUsers > 0 ? monthlyCost / currentUsers : 0);
-                }
-                
-                return {
-                    timeLabels,
-                    monthlyCosts,
-                    costPerUser,
-                    userCounts
-                };
-            };
-            
-            const timelineData = generateTimelineData();
-            
-            const chartData = {
-                ...timelineData,
-                // Keep some legacy data for other calculations
-                costPerUserByScale: {
-                    year1: userScalePoints.map(u => calculateCostPerUserAtScale(u, 1)),
-                    year2: userScalePoints.map(u => calculateCostPerUserAtScale(u, 2)),
-                    year3: userScalePoints.map(u => calculateCostPerUserAtScale(u, 3))
-                },
-                costComposition: {
-                    development: [
-                        year1Development / year1Users / 12,
-                        year2Development / year2Users / 12,
-                        year3Development / year3Users / 12
-                    ],
-                    infrastructure: [
-                        (year1Hosting + year1ThirdParty + year1Licensing + annualDevTools) / year1Users / 12,
-                        (year2Hosting + year2ThirdParty + year2Licensing + annualDevTools) / year2Users / 12,
-                        (year3Hosting + year3ThirdParty + year3Licensing + annualDevTools) / year3Users / 12
-                    ],
-                    aws: [
-                        year1AWSTotal / year1Users / 12,
-                        year2AWSTotal / year2Users / 12,
-                        year3AWSTotal / year3Users / 12
-                    ],
-                    graphDB: [
-                        year1GraphDB / year1Users / 12,
-                        year2GraphDB / year2Users / 12,
-                        year3GraphDB / year3Users / 12
-                    ]
-                },
-                costDrivers: {
-                    labels: ['Development Team', 'AWS Services', 'Graph Database', 'Infrastructure', 'Licensing', 'Dev Tools'],
-                    values: [
-                        (year1Development + year2Development + year3Development) / (avgUsers * 36),
-                        (year1AWSTotal + year2AWSTotal + year3AWSTotal) / (avgUsers * 36),
-                        (year1GraphDB + year2GraphDB + year3GraphDB) / (avgUsers * 36),
-                        (year1Hosting + year2Hosting + year3Hosting + year1ThirdParty + year2ThirdParty + year3ThirdParty) / (avgUsers * 36),
-                        (year1Licensing + year2Licensing + year3Licensing) / (avgUsers * 36),
-                        (annualDevTools * 3) / (avgUsers * 36)
-                    ].sort((a, b) => b - a)
-                },
-                scaleData: {
-                    year1: timelinePoints.filter(u => u <= year1Users).map(u => ({
-                        x: u,
-                        y: calculateTotalCostAtScale(u, 1) / 12
-                    })),
-                    year2: timelinePoints.filter(u => u > year1Users && u <= year2Users).map(u => ({
-                        x: u,
-                        y: calculateTotalCostAtScale(u, 2) / 12
-                    })),
-                    year3: timelinePoints.filter(u => u > year2Users).map(u => ({
-                        x: u,
-                        y: calculateTotalCostAtScale(u, 3) / 12
-                    }))
-                },
-                userScaleLabels: userScalePoints.map(u => {
-                    if (u >= 1000000) return (u/1000000).toFixed(1) + 'M';
-                    if (u >= 1000) return (u/1000).toFixed(0) + 'K';
-                    return u.toString();
-                })
-            };
-
-            // Sort cost drivers and their labels together
-            const sortedDrivers = chartData.costDrivers.labels
-                .map((label, i) => ({ label, value: chartData.costDrivers.values[i] }))
-                .sort((a, b) => b.value - a.value);
-            chartData.costDrivers.labels = sortedDrivers.map(d => d.label);
-            chartData.costDrivers.values = sortedDrivers.map(d => d.value);
-
-            updateUnifiedChart(chartData);
-
-            // Update summary
+            // Update summary display
             document.getElementById('totalTCO').textContent = formatCurrency(threeYearTotal);
             document.getElementById('costPerUser').textContent = formatCurrencyPrecise(costPerUser);
             document.getElementById('monthlyCostPerUser').textContent = formatCurrencyPrecise(monthlyCostPerUser);
 
+            // Generate timeline data for charts
+            const timelineData = generateTimelineData(expectedUsers, userGrowth, mvpDuration, baseMaintenanceMonthly, supportGrowth, hosting, hostingGrowth, thirdParty, licensing, licensingGrowth, devTools, year1AWSTotal, year2AWSTotal, year3AWSTotal, year1GraphDB, year2GraphDB, year3GraphDB, mvpTotal);
+
+            const categoryBreakdown = {
+                labels: ['Development Team', 'AWS Services', 'Infrastructure', 'Graph Database', 'Licensing', 'Dev Tools'],
+                values: [
+                    year1Development + year2Development + year3Development,
+                    year1AWSTotal + year2AWSTotal + year3AWSTotal,
+                    year1Hosting + year2Hosting + year3Hosting + year1ThirdParty + year2ThirdParty + year3ThirdParty,
+                    year1GraphDB + year2GraphDB + year3GraphDB,
+                    year1Licensing + year2Licensing + year3Licensing,
+                    annualDevTools * 3
+                ],
+                total: threeYearTotal
+            };
+
+            const yearlyData = {
+                years: [1, 2, 3],
+                categories: ['Development', 'AWS Services', 'Infrastructure', 'Graph DB', 'Licensing', 'Dev Tools'],
+                data: {
+                    1: {
+                        'Development': year1Development,
+                        'AWS Services': year1AWSTotal,
+                        'Infrastructure': year1Hosting + year1ThirdParty,
+                        'Graph DB': year1GraphDB,
+                        'Licensing': year1Licensing,
+                        'Dev Tools': annualDevTools
+                    },
+                    2: {
+                        'Development': year2Development,
+                        'AWS Services': year2AWSTotal,
+                        'Infrastructure': year2Hosting + year2ThirdParty,
+                        'Graph DB': year2GraphDB,
+                        'Licensing': year2Licensing,
+                        'Dev Tools': annualDevTools
+                    },
+                    3: {
+                        'Development': year3Development,
+                        'AWS Services': year3AWSTotal,
+                        'Infrastructure': year3Hosting + year3ThirdParty,
+                        'Graph DB': year3GraphDB,
+                        'Licensing': year3Licensing,
+                        'Dev Tools': annualDevTools
+                    }
+                }
+            };
+
+            const awsBreakdown = {
+                labels: ['DynamoDB', 'Cognito', 'Lambda', 'API Gateway', 'CloudFront', 'S3', 'CloudWatch', 'EventBridge', 'SQS'],
+                values: [
+                    year1DynamoDB + year2DynamoDB + year3DynamoDB,
+                    year1Cognito + year2Cognito + year3Cognito,
+                    year1Lambda + year2Lambda + year3Lambda,
+                    year1ApiGateway + year2ApiGateway + year3ApiGateway,
+                    year1CloudFront + year2CloudFront + year3CloudFront,
+                    year1S3 + year2S3 + year3S3,
+                    year1CloudWatch + year2CloudWatch + year3CloudWatch,
+                    year1EventBridge + year2EventBridge + year3EventBridge,
+                    year1SQS + year2SQS + year3SQS
+                ],
+                total: year1AWSTotal + year2AWSTotal + year3AWSTotal
+            };
+
+            const scaleData = generateScaleData(expectedUsers, year1Users, year2Users, year3Users, year1Total, year2Total, year3Total);
+            const growthData = generateGrowthData(expectedUsers, userGrowth, threeYearTotal);
+
+            // Create all charts
+            createTimelineChart(timelineData);
+            createCategoryPieChart(categoryBreakdown);
+            createYearlyStackedChart(yearlyData);
+            createAWSBreakdownChart(awsBreakdown);
+            createScaleEfficiencyChart(scaleData);
+            createGrowthImpactChart(growthData);
+
             // Update user analysis table
+            updateUserAnalysisTable(year1Users, year2Users, year3Users, avgUsers, year1Development, year2Development, year3Development, year1Hosting, year2Hosting, year3Hosting, year1ThirdParty, year2ThirdParty, year3ThirdParty, year1Licensing, year2Licensing, year3Licensing, annualDevTools, year1GraphDB, year2GraphDB, year3GraphDB, year1AWSTotal, year2AWSTotal, year3AWSTotal, monthlyCostPerUser);
+
+            // Update detailed table
+            updateDetailedTable(year1Development, year2Development, year3Development, mvpTotal, year1Maintenance, year1Hosting, year2Hosting, year3Hosting, year1Licensing, year2Licensing, year3Licensing, year1GraphDB, year2GraphDB, year3GraphDB, graphDbOption, annualDevTools, year1ThirdParty, year2ThirdParty, year3ThirdParty, year1AWSTotal, year2AWSTotal, year3AWSTotal, year1DynamoDB, year2DynamoDB, year3DynamoDB, year1Cognito, year2Cognito, year3Cognito, year1Lambda, year2Lambda, year3Lambda, year1ApiGateway, year2ApiGateway, year3ApiGateway, year1CloudFront, year2CloudFront, year3CloudFront, year1S3, year2S3, year3S3, year1CloudWatch, year2CloudWatch, year3CloudWatch, year1EventBridge, year2EventBridge, year3EventBridge, year1SQS, year2SQS, year3SQS, year1Total, year2Total, year3Total, threeYearTotal);
+
+            // Update analysis table
+            updateAnalysisTable(threeYearTotal, avgUsers, costPerUser, monthlyCostPerUser, activeUserRate, year1Development, year2Development, year3Development, mvpTotal, year1Hosting, year2Hosting, year3Hosting, year1Licensing, year2Licensing, year3Licensing, year1ThirdParty, year2ThirdParty, year3ThirdParty, annualDevTools, year1AWSTotal, year2AWSTotal, year3AWSTotal, year1GraphDB, year2GraphDB, year3GraphDB, graphDbOption, numOrganizations, organizationGrowth, orgsPerInstance, year3Users, baseMaintenanceMonthly, supportGrowth, numExperts, numEngineers, numFrontendEngineers, apiRequestsPerUser, apiGatewayRequests, lambdaGrowth, mvpDuration, workingDays, expertHours, engineerHours, frontendHours, expertMaintenanceHours, engineerMaintenanceHours, frontendMaintenanceHours);
+        }
+
+        function generateTimelineData(expectedUsers, userGrowth, mvpDuration, baseMaintenanceMonthly, supportGrowth, hosting, hostingGrowth, thirdParty, licensing, licensingGrowth, devTools, year1AWS, year2AWS, year3AWS, year1GraphDB, year2GraphDB, year3GraphDB, mvpTotal) {
+            const months = 36;
+            const timeLabels = [];
+            const monthlyCosts = [];
+            
+            for (let month = 1; month <= months; month++) {
+                timeLabels.push(month);
+                
+                let monthlyCost = 0;
+                
+                // Development costs
+                if (month <= mvpDuration) {
+                    monthlyCost += mvpTotal / mvpDuration;
+                } else {
+                    const maintenanceGrowth = Math.pow(1 + supportGrowth, Math.floor((month - mvpDuration - 1) / 12));
+                    monthlyCost += baseMaintenanceMonthly * maintenanceGrowth;
+                }
+                
+                // Infrastructure
+                const infrastructureGrowth = Math.pow(1 + hostingGrowth, Math.floor((month - 1) / 12));
+                monthlyCost += hosting * infrastructureGrowth;
+                monthlyCost += thirdParty * Math.pow(1.1, Math.floor((month - 1) / 12));
+                monthlyCost += licensing * Math.pow(1 + licensingGrowth, Math.floor((month - 1) / 12));
+                
+                // Dev tools (annual)
+                if (month % 12 === 1) {
+                    monthlyCost += devTools;
+                }
+                
+                // AWS & Graph DB (simplified monthly average)
+                const year = Math.ceil(month / 12);
+                if (year === 1) {
+                    monthlyCost += year1AWS / 12 + year1GraphDB / 12;
+                } else if (year === 2) {
+                    monthlyCost += year2AWS / 12 + year2GraphDB / 12;
+                } else {
+                    monthlyCost += year3AWS / 12 + year3GraphDB / 12;
+                }
+                
+                monthlyCosts.push(monthlyCost);
+            }
+            
+            return { timeLabels, monthlyCosts };
+        }
+
+        function generateScaleData(expectedUsers, year1Users, year2Users, year3Users, year1Total, year2Total, year3Total) {
+            const userCounts = [
+                Math.round(expectedUsers * 0.1),
+                Math.round(expectedUsers * 0.5),
+                Math.round(year1Users),
+                Math.round(year2Users),
+                Math.round(year3Users)
+            ].filter(u => u > 0).sort((a, b) => a - b);
+            
+            // Simplified cost per user calculation
+            const avgTotal = (year1Total + year2Total + year3Total) / 3;
+            const avgUsers = (year1Users + year2Users + year3Users) / 3;
+            
+            const costPerUser = userCounts.map(users => {
+                // Fixed costs don't scale, variable costs do
+                const fixedPortion = avgTotal * 0.7; // Assume 70% fixed
+                const variablePortion = avgTotal * 0.3; // 30% variable
+                const scaleFactor = users / avgUsers;
+                return (fixedPortion / users + variablePortion * scaleFactor / users) / 12;
+            });
+            
+            return { userCounts, costPerUser };
+        }
+
+        function generateGrowthData(expectedUsers, userGrowth, baseCost) {
+            const growthRates = [5, 10, 25, 50, 100, 200];
+            const labels = growthRates.map(rate => `${rate}% Growth`);
+            
+            const totalCosts = growthRates.map(rate => {
+                const growthMultiplier = 1 + (rate / 100) * 0.3; // Growth impact
+                return baseCost * growthMultiplier;
+            });
+            
+            return { labels, totalCosts };
+        }
+
+        function updateUserAnalysisTable(year1Users, year2Users, year3Users, avgUsers, year1Development, year2Development, year3Development, year1Hosting, year2Hosting, year3Hosting, year1ThirdParty, year2ThirdParty, year3ThirdParty, year1Licensing, year2Licensing, year3Licensing, annualDevTools, year1GraphDB, year2GraphDB, year3GraphDB, year1AWSTotal, year2AWSTotal, year3AWSTotal, monthlyCostPerUser) {
             const generateUserSegments = () => {
                 const segments = [];
-                const maxUsers = Math.max(year1Users, year2Users, year3Users) * 2;
-                
-                // Always include actual year values
                 const keyPoints = [
                     Math.round(year1Users * 0.1),
                     Math.round(year1Users * 0.5),
@@ -1228,7 +1174,6 @@
                     Math.round(year3Users)
                 ].filter(p => p > 0).sort((a, b) => a - b);
                 
-                // Create meaningful segments
                 for (let i = 0; i < keyPoints.length; i++) {
                     const count = keyPoints[i];
                     let name;
@@ -1255,8 +1200,8 @@
             };
             
             const userSegments = generateUserSegments();
-
             const userAnalysisBody = document.getElementById('userAnalysisBody');
+            
             userAnalysisBody.innerHTML = userSegments.map(segment => {
                 const fixedCostPerUser = ((year1Development + year2Development + year3Development) / 3 + 
                                          (year1Hosting + year2Hosting + year3Hosting) / 3 +
@@ -1280,8 +1225,9 @@
                     </tr>
                 `;
             }).join('');
+        }
 
-            // Update detailed table
+        function updateDetailedTable(year1Development, year2Development, year3Development, mvpTotal, year1Maintenance, year1Hosting, year2Hosting, year3Hosting, year1Licensing, year2Licensing, year3Licensing, year1GraphDB, year2GraphDB, year3GraphDB, graphDbOption, annualDevTools, year1ThirdParty, year2ThirdParty, year3ThirdParty, year1AWSTotal, year2AWSTotal, year3AWSTotal, year1DynamoDB, year2DynamoDB, year3DynamoDB, year1Cognito, year2Cognito, year3Cognito, year1Lambda, year2Lambda, year3Lambda, year1ApiGateway, year2ApiGateway, year3ApiGateway, year1CloudFront, year2CloudFront, year3CloudFront, year1S3, year2S3, year3S3, year1CloudWatch, year2CloudWatch, year3CloudWatch, year1EventBridge, year2EventBridge, year3EventBridge, year1SQS, year2SQS, year3SQS, year1Total, year2Total, year3Total, threeYearTotal) {
             const tbody = document.getElementById('tcoBody');
             tbody.innerHTML = `
                 <tr>
@@ -1292,7 +1238,7 @@
                     <td class="number currency">${formatCurrency(year1Development + year2Development + year3Development)}</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;&nbsp;• MVP Development (${mvpDuration} months)</td>
+                    <td>&nbsp;&nbsp;• MVP Development</td>
                     <td class="number currency">${formatCurrency(mvpTotal)}</td>
                     <td class="number currency">$0</td>
                     <td class="number currency">$0</td>
@@ -1418,8 +1364,9 @@
                     <td class="number currency"><strong>${formatCurrency(threeYearTotal)}</strong></td>
                 </tr>
             `;
+        }
 
-            // Update analysis table
+        function updateAnalysisTable(threeYearTotal, avgUsers, costPerUser, monthlyCostPerUser, activeUserRate, year1Development, year2Development, year3Development, mvpTotal, year1Hosting, year2Hosting, year3Hosting, year1Licensing, year2Licensing, year3Licensing, year1ThirdParty, year2ThirdParty, year3ThirdParty, annualDevTools, year1AWSTotal, year2AWSTotal, year3AWSTotal, year1GraphDB, year2GraphDB, year3GraphDB, graphDbOption, numOrganizations, organizationGrowth, orgsPerInstance, year3Users, baseMaintenanceMonthly, supportGrowth, numExperts, numEngineers, numFrontendEngineers, apiRequestsPerUser, apiGatewayRequests, lambdaGrowth, mvpDuration, workingDays, expertHours, engineerHours, frontendHours, expertMaintenanceHours, engineerMaintenanceHours, frontendMaintenanceHours) {
             const analysisBody = document.getElementById('analysisBody');
             const avgMonthlyCost = threeYearTotal / 36;
             const developmentPercentage = ((year1Development + year2Development + year3Development) / threeYearTotal * 100).toFixed(1);
@@ -1429,16 +1376,16 @@
             const graphDbPercentage = ((year1GraphDB + year2GraphDB + year3GraphDB) / threeYearTotal * 100).toFixed(1);
             
             const year3Orgs = numOrganizations * Math.pow(1 + organizationGrowth, 2);
+            const calculateNeo4jInstances = (orgs) => Math.ceil(orgs / orgsPerInstance);
             const year3Instances = graphDbOption === 'paid' ? calculateNeo4jInstances(year3Orgs) : 0;
             
             const totalMvpHours = workingDays * mvpDuration * ((expertHours * numExperts) + (engineerHours * numEngineers) + (frontendHours * numFrontendEngineers)) / 5;
             const totalMaintenanceHours = (expertMaintenanceHours * numExperts) + (engineerMaintenanceHours * numEngineers) + (frontendMaintenanceHours * numFrontendEngineers);
             const year3MaintenanceHours = totalMaintenanceHours * Math.pow(1 + supportGrowth, 2);
             
-            // Calculate AWS cost per user for different services
             const year3AWSPerUser = year3AWSTotal / year3Users / 12;
             const activeUsers = year3Users * activeUserRate;
-            const costPerActiveUser = year3Total / activeUsers / 12;
+            const costPerActiveUser = threeYearTotal / activeUsers / 12;
 
             analysisBody.innerHTML = `
                 <tr>
@@ -1498,10 +1445,6 @@
                     <td class="number currency">${formatCurrencyPrecise(year3AWSPerUser)}</td>
                 </tr>
                 <tr>
-                    <td>Infrastructure Efficiency (Year 3)</td>
-                    <td class="number currency">${formatCurrencyPrecise((year3Hosting + year3Licensing + year3ThirdParty) / year3Users / 12)}/user/month</td>
-                </tr>
-                <tr>
                     <td>Total MVP Hours (All Resources)</td>
                     <td class="number">${totalMvpHours.toFixed(0)} hours</td>
                 </tr>
@@ -1532,15 +1475,8 @@
             `;
         }
 
-        // Initial calculation
-        calculateTCO();
-        
-        // Initialize sliders
-        initializeSliders();
-
-        // Auto-switch Neo4j to paid if orgs > 4, or free if <= 4
+        // Auto-switch Neo4j function
         function autoSwitchNeo4jPaid(numOrgs) {
-            // If organizations > 4, switch to 'Paid'; else, switch to 'Free'
             const neo4jSelect = document.getElementById('graphDbOption');
             if (parseInt(numOrgs, 10) > 4 && neo4jSelect.value !== 'paid') {
                 neo4jSelect.value = 'paid';
@@ -1551,13 +1487,37 @@
             }
         }
 
-        // Set default values for expected users and user growth
-        document.getElementById('expectedUsers').value = 20000;
-        document.getElementById('userGrowth').value = 10;
-        document.getElementById('expectedUsersSlider').value = 20000;
-        document.getElementById('userGrowthSlider').value = 10;
-        updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true);
-        updateSliderValue('userGrowthSlider', 'userGrowthValue', '%');
+        // Initialize everything
+        function initializeSliders() {
+            updateSliderValue('userGrowthSlider', 'userGrowthValue');
+            updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true);
+            updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue');
+            updateSliderValue('numExpertsSlider', 'numExpertsValue');
+            updateSliderValue('numEngineersSlider', 'numEngineersValue');
+            updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue');
+            updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue');
+            updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue');
+            updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue');
+            updateSliderValue('expertRateSlider', 'expertRateValue', '', true);
+            updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true);
+            updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true);
+            updateSliderValue('expertHoursSlider', 'expertHoursValue');
+            updateSliderValue('engineerHoursSlider', 'engineerHoursValue');
+            updateSliderValue('frontendHoursSlider', 'frontendHoursValue');
+            updateSliderValue('mvpDurationSlider', 'mvpDurationValue');
+            updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue');
+            updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue');
+            updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue');
+            updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue');
+            updateSliderValue('supportGrowthSlider', 'supportGrowthValue');
+            updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue');
+            updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue');
+            updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '', true);
+        }
+
+        // Initialize everything
+        initializeSliders();
+        calculateTCO();
     </script>
 </body>
 </html>
