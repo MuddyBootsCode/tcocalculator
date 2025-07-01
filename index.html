@@ -4,8 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Development TCO Calculator - Enhanced</title>
+    <meta name="description" content="Interactive Total Cost of Ownership calculator for software development projects with comprehensive cost analysis and visualizations">
+    <meta name="keywords" content="TCO, software development, cost calculator, AWS, development costs">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
+        /* Accessibility: Skip link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+        
+        /* Focus indicators for better keyboard navigation */
+        input:focus, select:focus, button:focus {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .summary-box {
+                border: 2px solid #000;
+            }
+            .chart-container {
+                border: 2px solid #000;
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Screen reader only class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -214,219 +271,302 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="container" role="main" id="main-content">
         <h1>Software Development TCO Calculator - Enhanced</h1>
         
-        <div class="summary-box">
-            <h2 style="margin: 0; border: none; color: white;">💰 3-Year Total Cost of Ownership</h2>
-            <div class="summary-amount" id="totalTCO">$0</div>
+        <!-- Accessibility instructions for screen reader users -->
+        <div class="sr-only" aria-live="polite">
+            <p>This is an interactive Total Cost of Ownership calculator for software development projects. 
+            Use the sliders to adjust various parameters and see real-time cost calculations. 
+            All sliders support keyboard navigation: use arrow keys for small adjustments, 
+            Page Up/Down for larger changes, and Home/End to jump to minimum or maximum values.</p>
+        </div>
+        
+        <div class="summary-box" role="region" aria-labelledby="summary-heading">
+            <h2 id="summary-heading" style="margin: 0; border: none; color: white;">💰 3-Year Total Cost of Ownership</h2>
+            <div class="summary-amount" id="totalTCO" aria-label="Total cost of ownership" role="status" aria-live="polite">$0</div>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <h3>📊 3 YearCost Per User</h3>
-                    <div class="value" id="costPerUser">$0</div>
+                    <h3>📊 3 Year Cost Per User</h3>
+                    <div class="value" id="costPerUser" aria-label="Cost per user">$0</div>
                 </div>
                 <div class="summary-item">
                     <h3>📅 Monthly Cost Per User</h3>
-                    <div class="value" id="monthlyCostPerUser">$0</div>
+                    <div class="value" id="monthlyCostPerUser" aria-label="Monthly cost per user">$0</div>
                 </div>
             </div>
         </div>
 
         <!-- Complete Interactive Controls Section (restored from original) -->
-        <div class="variables-section">
-            <h2>🎛️ Interactive Visualization Controls</h2>
+        <div class="variables-section" role="region" aria-labelledby="controls-heading">
+            <h2 id="controls-heading">🎛️ Interactive Visualization Controls</h2>
             <div class="variables-grid">
                 <div class="variable-group">
                     <h4>📈 Growth & Scale Controls</h4>
                     <div class="slider-control">
-                        <label>Annual User Growth Rate: <span id="userGrowthValue">10</span>%</label>
-                        <input type="range" id="userGrowthSlider" min="10" max="200" value="10" oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue'); updateFromSlider('userGrowth', this.value);">
+                        <label for="userGrowthSlider">Annual User Growth Rate: <span id="userGrowthValue" aria-live="polite">10</span>%</label>
+                        <input type="range" id="userGrowthSlider" min="10" max="200" value="10" 
+                               aria-describedby="userGrowthValue"
+                               aria-label="Annual user growth rate from 10 to 200 percent"
+                               oninput="updateSliderValue('userGrowthSlider', 'userGrowthValue'); updateFromSlider('userGrowth', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Expected Users: <span id="expectedUsersValue">20,000</span></label>
-                        <input type="range" id="expectedUsersSlider" min="100" max="100000" value="20000" oninput="updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true); updateFromSlider('expectedUsers', this.value);">
+                        <label for="expectedUsersSlider">Expected Users: <span id="expectedUsersValue" aria-live="polite">20,000</span></label>
+                        <input type="range" id="expectedUsersSlider" min="100" max="100000" value="20000" 
+                               aria-describedby="expectedUsersValue"
+                               aria-label="Expected users from 100 to 100,000"
+                               oninput="updateSliderValue('expectedUsersSlider', 'expectedUsersValue', '', true); updateFromSlider('expectedUsers', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Organization Growth: <span id="organizationGrowthValue">100</span>%</label>
-                        <input type="range" id="organizationGrowthSlider" min="10" max="300" value="100" oninput="updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue'); updateFromSlider('organizationGrowth', this.value);">
+                        <label for="organizationGrowthSlider">Organization Growth: <span id="organizationGrowthValue" aria-live="polite">100</span>%</label>
+                        <input type="range" id="organizationGrowthSlider" min="10" max="300" value="100" 
+                               aria-describedby="organizationGrowthValue"
+                               aria-label="Organization growth rate from 10 to 300 percent"
+                               oninput="updateSliderValue('organizationGrowthSlider', 'organizationGrowthValue'); updateFromSlider('organizationGrowth', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
                     <h4>👥 Team Composition Controls</h4>
                     <div class="slider-control">
-                        <label>Number of Experts: <span id="numExpertsValue">1</span></label>
-                        <input type="range" id="numExpertsSlider" min="0" max="5" value="1" oninput="updateSliderValue('numExpertsSlider', 'numExpertsValue'); updateFromSlider('numExperts', this.value);">
+                        <label for="numExpertsSlider">Number of Experts: <span id="numExpertsValue" aria-live="polite">1</span></label>
+                        <input type="range" id="numExpertsSlider" min="0" max="5" value="1" 
+                               aria-describedby="numExpertsValue"
+                               aria-label="Number of experts from 0 to 5"
+                               oninput="updateSliderValue('numExpertsSlider', 'numExpertsValue'); updateFromSlider('numExperts', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Number of Engineers: <span id="numEngineersValue">1</span></label>
-                        <input type="range" id="numEngineersSlider" min="0" max="10" value="1" oninput="updateSliderValue('numEngineersSlider', 'numEngineersValue'); updateFromSlider('numEngineers', this.value);">
+                        <label for="numEngineersSlider">Number of Engineers: <span id="numEngineersValue" aria-live="polite">1</span></label>
+                        <input type="range" id="numEngineersSlider" min="0" max="10" value="1" 
+                               aria-describedby="numEngineersValue"
+                               aria-label="Number of engineers from 0 to 10"
+                               oninput="updateSliderValue('numEngineersSlider', 'numEngineersValue'); updateFromSlider('numEngineers', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Number of Frontend Engineers: <span id="numFrontendEngineersValue">2</span></label>
-                        <input type="range" id="numFrontendEngineersSlider" min="0" max="10" value="2" oninput="updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue'); updateFromSlider('numFrontendEngineers', this.value);">
+                        <label for="numFrontendEngineersSlider">Number of Frontend Engineers: <span id="numFrontendEngineersValue" aria-live="polite">2</span></label>
+                        <input type="range" id="numFrontendEngineersSlider" min="0" max="10" value="2" 
+                               aria-describedby="numFrontendEngineersValue"
+                               aria-label="Number of frontend engineers from 0 to 10"
+                               oninput="updateSliderValue('numFrontendEngineersSlider', 'numFrontendEngineersValue'); updateFromSlider('numFrontendEngineers', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
                     <h4>☁️ AWS Usage Controls</h4>
                     <div class="slider-control">
-                        <label>Lambda Requests/Month: <span id="lambdaRequestsValue">10</span>M</label>
-                        <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
+                        <label for="lambdaRequestsSlider">Lambda Requests/Month: <span id="lambdaRequestsValue" aria-live="polite">10</span>M</label>
+                        <input type="range" id="lambdaRequestsSlider" min="1" max="100" value="10" 
+                               aria-describedby="lambdaRequestsValue"
+                               aria-label="Lambda requests per month from 1 to 100 million"
+                               oninput="updateSliderValue('lambdaRequestsSlider', 'lambdaRequestsValue'); updateFromSlider('lambdaRequestsPerMonth', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>API Gateway Requests: <span id="apiGatewayRequestsValue">10</span>M</label>
-                        <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue'); updateFromSlider('apiGatewayRequests', this.value);">
+                        <label for="apiGatewayRequestsSlider">API Gateway Requests: <span id="apiGatewayRequestsValue" aria-live="polite">10</span>M</label>
+                        <input type="range" id="apiGatewayRequestsSlider" min="1" max="100" value="10" 
+                               aria-describedby="apiGatewayRequestsValue"
+                               aria-label="API Gateway requests from 1 to 100 million"
+                               oninput="updateSliderValue('apiGatewayRequestsSlider', 'apiGatewayRequestsValue'); updateFromSlider('apiGatewayRequests', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>CloudFront Data Transfer: <span id="cloudFrontDataValue">500</span>GB</label>
-                        <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue'); updateFromSlider('cloudFrontData', this.value);">
+                        <label for="cloudFrontDataSlider">CloudFront Data Transfer: <span id="cloudFrontDataValue" aria-live="polite">500</span>GB</label>
+                        <input type="range" id="cloudFrontDataSlider" min="50" max="5000" value="500" 
+                               aria-describedby="cloudFrontDataValue"
+                               aria-label="CloudFront data transfer from 50 to 5000 gigabytes"
+                               oninput="updateSliderValue('cloudFrontDataSlider', 'cloudFrontDataValue'); updateFromSlider('cloudFrontData', this.value);">
                     </div>
                 </div>
                 
                 <div class="variable-group">
                     <h4>💰 Cost Controls</h4>
                     <div class="slider-control">
-                        <label>Expert Daily Rate: $<span id="expertRateValue">2,250</span></label>
-                        <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '', true); updateFromSlider('expertRate', this.value);">
+                        <label for="expertRateSlider">Expert Daily Rate: $<span id="expertRateValue" aria-live="polite">2,250</span></label>
+                        <input type="range" id="expertRateSlider" min="1000" max="5000" value="2250" 
+                               aria-describedby="expertRateValue"
+                               aria-label="Expert daily rate from 1000 to 5000 dollars"
+                               oninput="updateSliderValue('expertRateSlider', 'expertRateValue', '', true); updateFromSlider('expertRate', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Engineer Daily Rate: $<span id="engineerRateValue">2,000</span></label>
-                        <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true); updateFromSlider('engineerRate', this.value);">
+                        <label for="engineerRateSlider">Engineer Daily Rate: $<span id="engineerRateValue" aria-live="polite">2,000</span></label>
+                        <input type="range" id="engineerRateSlider" min="1000" max="4000" value="2000" 
+                               aria-describedby="engineerRateValue"
+                               aria-label="Engineer daily rate from 1000 to 4000 dollars"
+                               oninput="updateSliderValue('engineerRateSlider', 'engineerRateValue', '', true); updateFromSlider('engineerRate', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Frontend Daily Rate: $<span id="frontendRateValue">1,500</span></label>
-                        <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true); updateFromSlider('frontendRate', this.value);">
+                        <label for="frontendRateSlider">Frontend Daily Rate: $<span id="frontendRateValue" aria-live="polite">1,500</span></label>
+                        <input type="range" id="frontendRateSlider" min="800" max="3000" value="1500" 
+                               aria-describedby="frontendRateValue"
+                               aria-label="Frontend daily rate from 800 to 3000 dollars"
+                               oninput="updateSliderValue('frontendRateSlider', 'frontendRateValue', '', true); updateFromSlider('frontendRate', this.value);">
                     </div>
                 </div>
 
                 <div class="variable-group">
                     <h4>⌚ MVP Development Hours</h4>
                     <div class="slider-control">
-                        <label>Expert Hours/Week: <span id="expertHoursValue">20</span></label>
-                        <input type="range" id="expertHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('expertHoursSlider', 'expertHoursValue'); updateFromSlider('expertHours', this.value);">
+                        <label for="expertHoursSlider">Expert Hours/Week: <span id="expertHoursValue" aria-live="polite">20</span></label>
+                        <input type="range" id="expertHoursSlider" min="10" max="40" value="20" 
+                               aria-describedby="expertHoursValue"
+                               aria-label="Expert hours per week from 10 to 40"
+                               oninput="updateSliderValue('expertHoursSlider', 'expertHoursValue'); updateFromSlider('expertHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Engineer Hours/Week: <span id="engineerHoursValue">20</span></label>
-                        <input type="range" id="engineerHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('engineerHoursSlider', 'engineerHoursValue'); updateFromSlider('engineerHours', this.value);">
+                        <label for="engineerHoursSlider">Engineer Hours/Week: <span id="engineerHoursValue" aria-live="polite">20</span></label>
+                        <input type="range" id="engineerHoursSlider" min="10" max="40" value="20" 
+                               aria-describedby="engineerHoursValue"
+                               aria-label="Engineer hours per week from 10 to 40"
+                               oninput="updateSliderValue('engineerHoursSlider', 'engineerHoursValue'); updateFromSlider('engineerHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Frontend Hours/Week: <span id="frontendHoursValue">20</span></label>
-                        <input type="range" id="frontendHoursSlider" min="10" max="40" value="20" oninput="updateSliderValue('frontendHoursSlider', 'frontendHoursValue'); updateFromSlider('frontendHours', this.value);">
+                        <label for="frontendHoursSlider">Frontend Hours/Week: <span id="frontendHoursValue" aria-live="polite">20</span></label>
+                        <input type="range" id="frontendHoursSlider" min="10" max="40" value="20" 
+                               aria-describedby="frontendHoursValue"
+                               aria-label="Frontend hours per week from 10 to 40"
+                               oninput="updateSliderValue('frontendHoursSlider', 'frontendHoursValue'); updateFromSlider('frontendHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>MVP Duration: <span id="mvpDurationValue">6</span> months</label>
-                        <input type="range" id="mvpDurationSlider" min="3" max="12" value="6" oninput="updateSliderValue('mvpDurationSlider', 'mvpDurationValue'); updateFromSlider('mvpDuration', this.value);">
+                        <label for="mvpDurationSlider">MVP Duration: <span id="mvpDurationValue" aria-live="polite">6</span> months</label>
+                        <input type="range" id="mvpDurationSlider" min="3" max="12" value="6" 
+                               aria-describedby="mvpDurationValue"
+                               aria-label="MVP duration from 3 to 12 months"
+                               oninput="updateSliderValue('mvpDurationSlider', 'mvpDurationValue'); updateFromSlider('mvpDuration', this.value);">
                     </div>
                 </div>
 
                 <div class="variable-group">
                     <h4>🔧 Ongoing Maintenance</h4>
                     <div class="slider-control">
-                        <label>Expert Hours/Month: <span id="expertMaintenanceHoursValue">15</span></label>
-                        <input type="range" id="expertMaintenanceHoursSlider" min="5" max="40" value="15" oninput="updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue'); updateFromSlider('expertMaintenanceHours', this.value);">
+                        <label for="expertMaintenanceHoursSlider">Expert Hours/Month: <span id="expertMaintenanceHoursValue" aria-live="polite">15</span></label>
+                        <input type="range" id="expertMaintenanceHoursSlider" min="5" max="40" value="15" 
+                               aria-describedby="expertMaintenanceHoursValue"
+                               aria-label="Expert maintenance hours per month from 5 to 40"
+                               oninput="updateSliderValue('expertMaintenanceHoursSlider', 'expertMaintenanceHoursValue'); updateFromSlider('expertMaintenanceHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Engineer Hours/Month: <span id="engineerMaintenanceHoursValue">20</span></label>
-                        <input type="range" id="engineerMaintenanceHoursSlider" min="5" max="40" value="20" oninput="updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue'); updateFromSlider('engineerMaintenanceHours', this.value);">
+                        <label for="engineerMaintenanceHoursSlider">Engineer Hours/Month: <span id="engineerMaintenanceHoursValue" aria-live="polite">20</span></label>
+                        <input type="range" id="engineerMaintenanceHoursSlider" min="5" max="40" value="20" 
+                               aria-describedby="engineerMaintenanceHoursValue"
+                               aria-label="Engineer maintenance hours per month from 5 to 40"
+                               oninput="updateSliderValue('engineerMaintenanceHoursSlider', 'engineerMaintenanceHoursValue'); updateFromSlider('engineerMaintenanceHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Frontend Hours/Month: <span id="frontendMaintenanceHoursValue">17</span></label>
-                        <input type="range" id="frontendMaintenanceHoursSlider" min="5" max="40" value="17" oninput="updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue'); updateFromSlider('frontendMaintenanceHours', this.value);">
+                        <label for="frontendMaintenanceHoursSlider">Frontend Hours/Month: <span id="frontendMaintenanceHoursValue" aria-live="polite">17</span></label>
+                        <input type="range" id="frontendMaintenanceHoursSlider" min="5" max="40" value="17" 
+                               aria-describedby="frontendMaintenanceHoursValue"
+                               aria-label="Frontend maintenance hours per month from 5 to 40"
+                               oninput="updateSliderValue('frontendMaintenanceHoursSlider', 'frontendMaintenanceHoursValue'); updateFromSlider('frontendMaintenanceHours', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Maintenance Rate: <span id="maintenanceRateMultiplierValue">85</span>%</label>
-                        <input type="range" id="maintenanceRateMultiplierSlider" min="50" max="100" value="85" oninput="updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue'); updateFromSlider('maintenanceRateMultiplier', this.value);">
+                        <label for="maintenanceRateMultiplierSlider">Maintenance Rate: <span id="maintenanceRateMultiplierValue" aria-live="polite">85</span>%</label>
+                        <input type="range" id="maintenanceRateMultiplierSlider" min="50" max="100" value="85" 
+                               aria-describedby="maintenanceRateMultiplierValue"
+                               aria-label="Maintenance rate multiplier from 50 to 100 percent"
+                               oninput="updateSliderValue('maintenanceRateMultiplierSlider', 'maintenanceRateMultiplierValue'); updateFromSlider('maintenanceRateMultiplier', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Support Growth Rate: <span id="supportGrowthValue">25</span>%</label>
-                        <input type="range" id="supportGrowthSlider" min="0" max="50" value="25" oninput="updateSliderValue('supportGrowthSlider', 'supportGrowthValue'); updateFromSlider('supportGrowth', this.value);">
+                        <label for="supportGrowthSlider">Support Growth Rate: <span id="supportGrowthValue" aria-live="polite">25</span>%</label>
+                        <input type="range" id="supportGrowthSlider" min="0" max="50" value="25" 
+                               aria-describedby="supportGrowthValue"
+                               aria-label="Support growth rate from 0 to 50 percent"
+                               oninput="updateSliderValue('supportGrowthSlider', 'supportGrowthValue'); updateFromSlider('supportGrowth', this.value);">
                     </div>
                 </div>
 
                 <div class="variable-group">
                     <h4>🕸️ Graph Database Options</h4>
                     <div class="input-row">
-                        <label>Graph Database Setup:</label>
-                        <select id="graphDbOption" onchange="calculateTCO()">
+                        <label for="graphDbOption">Graph Database Setup:</label>
+                        <select id="graphDbOption" aria-label="Select graph database setup option" onchange="calculateTCO()">
                             <option value="free">Free Neo4j (Docker/Community)</option>
                             <option value="paid">Paid Neo4j (Discovery Bundle)</option>
                         </select>
                     </div>
                     <div class="slider-control">
-                        <label>Number of Organizations: <span id="numOrganizationsValue">2</span></label>
-                        <input type="range" id="numOrganizationsSlider" min="1" max="50" value="2" oninput="updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue'); updateFromSlider('numOrganizations', this.value); autoSwitchNeo4jPaid(this.value);">
+                        <label for="numOrganizationsSlider">Number of Organizations: <span id="numOrganizationsValue" aria-live="polite">2</span></label>
+                        <input type="range" id="numOrganizationsSlider" min="1" max="50" value="2" 
+                               aria-describedby="numOrganizationsValue"
+                               aria-label="Number of organizations from 1 to 50"
+                               oninput="updateSliderValue('numOrganizationsSlider', 'numOrganizationsValue'); updateFromSlider('numOrganizations', this.value); autoSwitchNeo4jPaid(this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Organizations per Instance: <span id="orgsPerInstanceValue">4</span></label>
-                        <input type="range" id="orgsPerInstanceSlider" min="1" max="10" value="4" oninput="updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue'); updateFromSlider('orgsPerInstance', this.value);">
+                        <label for="orgsPerInstanceSlider">Organizations per Instance: <span id="orgsPerInstanceValue" aria-live="polite">4</span></label>
+                        <input type="range" id="orgsPerInstanceSlider" min="1" max="10" value="4" 
+                               aria-describedby="orgsPerInstanceValue"
+                               aria-label="Organizations per instance from 1 to 10"
+                               oninput="updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue'); updateFromSlider('orgsPerInstance', this.value);">
                     </div>
                     <div class="slider-control">
-                        <label>Neo4j Bundle Cost: $<span id="neo4jInstanceCostValue">53,000</span></label>
-                        <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="53000" oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '', true); updateFromSlider('neo4jInstanceCost', this.value);">
+                        <label for="neo4jInstanceCostSlider">Neo4j Bundle Cost: $<span id="neo4jInstanceCostValue" aria-live="polite">53,000</span></label>
+                        <input type="range" id="neo4jInstanceCostSlider" min="10000" max="100000" value="53000" 
+                               aria-describedby="neo4jInstanceCostValue"
+                               aria-label="Neo4j bundle cost from 10,000 to 100,000 dollars"
+                               oninput="updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '', true); updateFromSlider('neo4jInstanceCost', this.value);">
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Main Visualizations Grid -->
-        <div class="chart-grid-2x2">
+        <div class="chart-grid-2x2" role="region" aria-label="Main cost analysis visualizations">
             <div class="chart-container">
-                <h3>📈 Cost Over Time</h3>
+                <h3 id="timeline-chart-title">📈 Cost Over Time</h3>
                 <div class="chart-box">
-                    <canvas id="timelineChart"></canvas>
+                    <canvas id="timelineChart" aria-labelledby="timeline-chart-title" role="img" aria-label="Line chart showing cost over time"></canvas>
                 </div>
             </div>
             
             <div class="chart-container">
-                <h3>🥧 Cost Breakdown by Category</h3>
+                <h3 id="category-chart-title">🥧 Cost Breakdown by Category</h3>
                 <div class="chart-box">
-                    <canvas id="categoryPieChart"></canvas>
+                    <canvas id="categoryPieChart" aria-labelledby="category-chart-title" role="img" aria-label="Doughnut chart showing cost breakdown by category"></canvas>
                 </div>
             </div>
             
             <div class="chart-container">
-                <h3>📊 Cost Composition by Year</h3>
+                <h3 id="yearly-chart-title">📊 Cost Composition by Year</h3>
                 <div class="chart-box">
-                    <canvas id="yearlyStackedChart"></canvas>
+                    <canvas id="yearlyStackedChart" aria-labelledby="yearly-chart-title" role="img" aria-label="Stacked bar chart showing cost composition by year"></canvas>
                 </div>
             </div>
             
             <div class="chart-container">
-                <h3>☁️ AWS Services Breakdown</h3>
+                <h3 id="aws-chart-title">☁️ AWS Services Breakdown</h3>
                 <div class="chart-box">
-                    <canvas id="awsBreakdownChart"></canvas>
+                    <canvas id="awsBreakdownChart" aria-labelledby="aws-chart-title" role="img" aria-label="Doughnut chart showing AWS services cost breakdown"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Additional Insights -->
-        <div class="chart-grid-1x2">
+        <div class="chart-grid-1x2" role="region" aria-label="Additional cost analysis insights">
             <div class="chart-container">
-                <h3>💡 Cost Per User by Scale</h3>
+                <h3 id="scale-chart-title">💡 Cost Per User by Scale</h3>
                 <div class="chart-box">
-                    <canvas id="scaleEfficiencyChart"></canvas>
+                    <canvas id="scaleEfficiencyChart" aria-labelledby="scale-chart-title" role="img" aria-label="Line chart showing cost per user by scale"></canvas>
                 </div>
             </div>
             
             <div class="chart-container">
-                <h3>📈 Growth Impact</h3>
+                <h3 id="growth-chart-title">📈 Growth Impact</h3>
                 <div class="chart-box">
-                    <canvas id="growthImpactChart"></canvas>
+                    <canvas id="growthImpactChart" aria-labelledby="growth-chart-title" role="img" aria-label="Bar chart showing growth impact on costs"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="user-cost-analysis">
-            <h2>📊 Cost Per User Analysis</h2>
-            <table>
+        <div class="user-cost-analysis" role="region" aria-labelledby="user-analysis-heading">
+            <h2 id="user-analysis-heading">📊 Cost Per User Analysis</h2>
+            <table role="table" aria-labelledby="user-analysis-heading">
                 <thead>
                     <tr class="section-header">
-                        <th>User Segment</th>
-                        <th>Fixed Cost/User/Month</th>
-                        <th>Variable Cost/User/Month</th>
-                        <th>Total Cost/User/Month</th>
-                        <th>Efficiency vs Base</th>
+                        <th scope="col">User Segment</th>
+                        <th scope="col">Fixed Cost/User/Month</th>
+                        <th scope="col">Variable Cost/User/Month</th>
+                        <th scope="col">Total Cost/User/Month</th>
+                        <th scope="col">Efficiency vs Base</th>
                     </tr>
                 </thead>
                 <tbody id="userAnalysisBody">
@@ -434,27 +574,27 @@
             </table>
         </div>
 
-        <h2>📋 Detailed Cost Breakdown</h2>
-        <table id="tcoTable">
+        <h2 id="detailed-breakdown-heading">📋 Detailed Cost Breakdown</h2>
+        <table id="tcoTable" role="table" aria-labelledby="detailed-breakdown-heading">
             <thead>
                 <tr class="section-header">
-                    <th>Cost Category</th>
-                    <th>Year 1</th>
-                    <th>Year 2</th>
-                    <th>Year 3</th>
-                    <th>3-Year Total</th>
+                    <th scope="col">Cost Category</th>
+                    <th scope="col">Year 1</th>
+                    <th scope="col">Year 2</th>
+                    <th scope="col">Year 3</th>
+                    <th scope="col">3-Year Total</th>
                 </tr>
             </thead>
             <tbody id="tcoBody">
             </tbody>
         </table>
 
-        <h2>📊 Cost Analysis</h2>
-        <table id="analysisTable">
+        <h2 id="cost-analysis-heading">📊 Cost Analysis</h2>
+        <table id="analysisTable" role="table" aria-labelledby="cost-analysis-heading">
             <thead>
                 <tr class="section-header">
-                    <th>Metric</th>
-                    <th>Value</th>
+                    <th scope="col">Metric</th>
+                    <th scope="col">Value</th>
                 </tr>
             </thead>
             <tbody id="analysisBody">
@@ -540,6 +680,28 @@
             }
             
             valueElement.textContent = value + suffix;
+            
+            // Accessibility: Announce value changes to screen readers
+            if (slider && slider.getAttribute('aria-label')) {
+                const label = slider.getAttribute('aria-label');
+                const announcement = `${label}: ${value}${suffix}`;
+                announceToScreenReader(announcement);
+            }
+        }
+        
+        // Accessibility: Function to announce changes to screen readers
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.setAttribute('class', 'sr-only');
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            
+            // Remove the announcement element after a short delay
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
         }
 
         function updateFromSlider(inputId, value) {
@@ -604,6 +766,11 @@
                                 callback: value => formatCurrency(value)
                             }
                         }
+                    },
+                    // Accessibility options
+                    accessibility: {
+                        enabled: true,
+                        description: 'Line chart showing total monthly cost over 36 months'
                     }
                 }
             });
@@ -1514,9 +1681,63 @@
             updateSliderValue('orgsPerInstanceSlider', 'orgsPerInstanceValue');
             updateSliderValue('neo4jInstanceCostSlider', 'neo4jInstanceCostValue', '', true);
         }
+        
+        // Accessibility: Add keyboard navigation support
+        function addKeyboardNavigation() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            
+            sliders.forEach(slider => {
+                slider.addEventListener('keydown', function(e) {
+                    const step = this.step || 1;
+                    const min = parseFloat(this.min);
+                    const max = parseFloat(this.max);
+                    let newValue = parseFloat(this.value);
+                    
+                    switch(e.key) {
+                        case 'ArrowRight':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            newValue = Math.min(max, newValue + parseFloat(step));
+                            this.value = newValue;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            newValue = Math.max(min, newValue - parseFloat(step));
+                            this.value = newValue;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            this.value = min;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            this.value = max;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                        case 'PageUp':
+                            e.preventDefault();
+                            newValue = Math.min(max, newValue + parseFloat(step) * 10);
+                            this.value = newValue;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                        case 'PageDown':
+                            e.preventDefault();
+                            newValue = Math.max(min, newValue - parseFloat(step) * 10);
+                            this.value = newValue;
+                            this.dispatchEvent(new Event('input'));
+                            break;
+                    }
+                });
+            });
+        }
 
         // Initialize everything
         initializeSliders();
+        addKeyboardNavigation();
         calculateTCO();
     </script>
 </body>
